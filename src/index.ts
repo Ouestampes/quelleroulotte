@@ -4,6 +4,7 @@ import { createInterface } from 'readline';
 import sourceMapSupport from 'source-map-support';
 
 import { startElectron } from './electron';
+import { loadRoulotteFromFile } from './roulotte';
 import { setState } from './util/state';
 
 // Utile pour récupérer les vraies lignes d'erreur en cas de plantage
@@ -61,12 +62,15 @@ if (app.isPackaged) {
 } else {
 	// Démarrage depuis le git du code source
 	appPath = app.getAppPath();
+	console.log(appPath);
 	resourcePath = appPath;
 }
 
 setState({
 	resourcePath,
-	appPath
+	appPath,
+	dataPath: appPath
 });
 
 startElectron();
+loadRoulotteFromFile();

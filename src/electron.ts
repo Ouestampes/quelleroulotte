@@ -17,6 +17,10 @@ export function startElectron() {
 async function initElectronWindow() {
 	await createControllerWindow();
 	createPublicWindow();
+	updateMenu();
+}
+
+export async function updateMenu() {
 	const menu = Menu.buildFromTemplate(initMenu());
 	// Setup de l'application sur la fenêtre du contrôleur sous Windows, sinon sur le bureau sous macOS
 	process.platform === 'darwin' 
@@ -27,8 +31,8 @@ async function initElectronWindow() {
 async function createControllerWindow() {
 	// Create the browser window
 	controllerWindow = new BrowserWindow({
-		width: 1400,
-		height: 900,
+		width: 500,
+		height: 400,
 		show: false,
 		title: 'Quelle Roulotte ? - Contrôleur',
 		// icon: resolve(state.resourcePath, 'build/icon1024.png'),
@@ -53,8 +57,8 @@ async function createControllerWindow() {
 export async function createPublicWindow() {
 	if (publicWindow) return;
 	publicWindow = new BrowserWindow({
-		width: 1400,
-		height: 900,
+		width: 500,
+		height: 300,
 		title: 'Quelle Roulotte ? - Public',
 		// icon: resolve(state.resourcePath, 'build/icon1024.png'),
 		webPreferences: {
@@ -79,4 +83,12 @@ export function togglePublicFullscreen() {
 
 export function showPublicWindow() {
 	publicWindow.show();
+}
+
+export function emitPublic(type: string, data: any) {
+	if (publicWindow) publicWindow.webContents.send(type, data);
+}
+
+export function emitController(type: string, data: any) {
+	if (controllerWindow) controllerWindow.webContents.send(type, data);
 }

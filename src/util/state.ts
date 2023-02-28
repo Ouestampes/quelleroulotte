@@ -5,7 +5,10 @@ import { State } from '../types/state';
 
 // Etat initial :
 let state: State = {
-	publicFullscreen: false
+	publicFullscreen: false,
+	game: {
+		status: 'stopped',
+	}
 };
 
 /** Get current app state object */
