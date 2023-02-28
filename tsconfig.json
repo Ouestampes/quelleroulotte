@@ -1,0 +1,34 @@
+{
+	"compilerOptions": {
+		// Target latest version of ECMAScript.
+		"target": "es2021",
+		"module": "ES6",
+		// Search under node_modules for non-relative imports.
+		"moduleResolution": "node",
+		// Process & infer types from .js files.
+		"allowJs": true,
+		// Don't emit; allow esbuild to transform files.
+		"noEmit": true,
+		// Enable strictest settings like strictNullChecks & noImplicitAny.
+		// true is better but requires a global refactoring.
+		"strict": false,
+		"isolatedModules": true,
+		// Import non-ES modules as default imports.
+		"esModuleInterop": true,
+		// Import constants from JSON (locales).
+		"resolveJsonModule": true,
+		"sourceMap": true,
+		"noEmitHelpers": true,
+		"importHelpers": true,
+		"inlineSources": true,
+		"pretty": true,
+		"removeComments": true,
+		"downlevelIteration": true,
+		"listFiles": false,
+		"listEmittedFiles": false,
+		"noUnusedParameters": true,
+		"noUnusedLocals": true,
+		"experimentalDecorators": true
+	},
+	"include": ["src", "test", "util"]
+}
