@@ -2,7 +2,7 @@
 
 const ipcRenderer = require('electron').ipcRenderer;
 
-ipcRenderer.on('questionUpdated', (event, data) => {
+ipcRenderer.on('questionUpdated', (_, data) => {
 	const question = document.querySelector('.ip--question');
 	const id = document.querySelector('.ip--id');
 	const answer = document.querySelector('.ip--answer');
@@ -12,7 +12,7 @@ ipcRenderer.on('questionUpdated', (event, data) => {
 
 });
 
-ipcRenderer.on('time', (event, data) => {
+ipcRenderer.on('time', (_, data) => {
 	const timer = document.querySelector('.ip--timer'); 
 	timer.innerHTML = data;
 });

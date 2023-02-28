@@ -162,6 +162,11 @@ export function goToQuestion(id: number) {
 	emitQuestion(game.questions[game.pos]);
 }
 
+export function revealCurrentAnswer() {
+	const game = getState().game;
+	emitPublic('answerUpdated', game.questions[game.pos].answer);
+}
+
 function emitQuestion(question: Question) {
 	emitPublic('questionUpdated', question);
 	emitController('questionUpdated', question);

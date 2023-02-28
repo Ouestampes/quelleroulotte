@@ -1,4 +1,4 @@
-import { lastQuestion, nextQuestion, pauseGame, prevQuestion, startGame, stopGame, unpauseGame } from '../roulotte';
+import { lastQuestion, nextQuestion, pauseGame, prevQuestion, revealCurrentAnswer, startGame, stopGame, unpauseGame } from '../roulotte';
 import { MenuItemBuilderFunction } from '../types/electron';
 import { getState } from '../util/state';
 
@@ -19,6 +19,7 @@ const builder: MenuItemBuilderFunction = () => {
 			{ label: 'Question &Suivante', click: () => nextQuestion() },
 			{ label: 'Question &Précédente', click: () => prevQuestion() },
 			{ label: 'D&ernière Question', click: () => lastQuestion() },
+			{ label: 'Rê&veler Réponse au Public', click: () => revealCurrentAnswer() },
 			
 		],
 	};
