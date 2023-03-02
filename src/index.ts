@@ -3,7 +3,8 @@ import { dirname, resolve } from 'path';
 import { createInterface } from 'readline';
 import sourceMapSupport from 'source-map-support';
 
-import { startElectron } from './electron';
+import { showLoadError, startElectron } from './electron';
+import { loadRoulotteFromGsheet } from './gsheet';
 import { loadRoulotteFromFile } from './roulotte';
 import { setState } from './util/state';
 
@@ -72,5 +73,15 @@ setState({
 	dataPath: appPath
 });
 
-startElectron();
-loadRoulotteFromFile();
+async function main() {
+	startElectron();
+	try {
+		await loadRoulotteFromGsheet();
+	} catch (err) {
+		// Non-fatal, on va charger le fichier depuis le fichier
+		await showLoadError();
+	}
+	await loadRoulotteFromFile();
+}
+
+main().catch(err => console.log(err));

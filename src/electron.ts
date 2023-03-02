@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, dialog, Menu } from 'electron';
 import { resolve } from 'path';
 
 import { initMenu } from './menu';
@@ -23,8 +23,8 @@ async function initElectronWindow() {
 export async function updateMenu() {
 	const menu = Menu.buildFromTemplate(initMenu());
 	// Setup de l'application sur la fenêtre du contrôleur sous Windows, sinon sur le bureau sous macOS
-	process.platform === 'darwin' 
-		? Menu.setApplicationMenu(menu) 
+	process.platform === 'darwin'
+		? Menu.setApplicationMenu(menu)
 		: controllerWindow?.setMenu(menu);
 }
 
@@ -44,7 +44,7 @@ async function createControllerWindow() {
 
 	controllerWindow.webContents.session.clearCache();
 	controllerWindow?.loadURL(`file://${resolve(getState().resourcePath, 'controller/index.html')}`);
-	
+
 	controllerWindow.once('ready-to-show', () => {
 		controllerWindow.show();
 	});
@@ -91,4 +91,11 @@ export function emitPublic(type: string, data: any) {
 
 export function emitController(type: string, data: any) {
 	if (controllerWindow) controllerWindow.webContents.send(type, data);
+}
+
+export async function showLoadError() {
+	await dialog.showMessageBox(controllerWindow, {
+		message: 'Impossible de lire le Gsheet. On va charger un roulotte.json local s\'il existe.\nPour lire depuis le Gsheet, assurez-vous d\'avoir le fichier "creds.json" et/ou d\'être connecté à Internet.',
+		type: 'error'
+	});
 }
