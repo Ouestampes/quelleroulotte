@@ -67,8 +67,7 @@
     "productName": "Quelle Roulotte?",
     "copyright": "© 2023 Ouestampes",
     "extraResources": [
-      "controller/**",
-      "public/**"
+      "frontend/**"
     ],
     "directories": {
       "output": "packages",

@@ -43,7 +43,7 @@ async function createControllerWindow() {
 	});
 
 	controllerWindow.webContents.session.clearCache();
-	controllerWindow?.loadURL(`file://${resolve(getState().resourcePath, 'controller/index.html')}`);
+	controllerWindow?.loadURL(`file://${resolve(getState().resourcePath, 'frontend/admin/index.html')}`);
 
 	controllerWindow.once('ready-to-show', () => {
 		controllerWindow.show();
@@ -68,7 +68,7 @@ export async function createPublicWindow() {
 	});
 	publicWindow.setMenu(null);
 	publicWindow.webContents.session.clearCache();
-	publicWindow?.loadURL(`file://${resolve(getState().resourcePath, 'public/index.html')}`);
+	publicWindow?.loadURL(`file://${resolve(getState().resourcePath, 'frontend/player/index.html')}`);
 	publicWindow.once('ready-to-show', () => {
 		publicWindow.show();
 	});
