@@ -24,6 +24,7 @@
   "dependencies": {
     "google-spreadsheet": "^3.3.0",
     "lodash": "^4.17.21",
+    "markdown-pro": "^1.1.5",
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {

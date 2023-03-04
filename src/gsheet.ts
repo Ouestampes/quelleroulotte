@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { markdown } from 'markdown-pro';
 import { resolve } from 'path';
 
 import { Question } from './types/roulotte';
@@ -19,8 +20,8 @@ export async function loadRoulotteFromGsheet() {
 			id: +row._rawData[0],
 			category: row._rawData[1],
 			theme: row._rawData[2],
-			question: row._rawData[3],
-			answer: row._rawData[4],
+			question: markdown(row._rawData[3], {useWrapper: false}),
+			answer: markdown(row._rawData[4], {useWrapper: false}),
 		});
 	}
 	await fs.writeFile(resolve(getState().dataPath, 'roulotte.json'), JSON.stringify(roulotte, null, 2), 'utf-8');
