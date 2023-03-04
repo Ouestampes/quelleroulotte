@@ -16,3 +16,16 @@ Il faut un fichier `creds.json` contenant la clé API et une propriété `sheet`
 
 Demander sur le Discord asso pour le fichier par exemple.
 
+Puis : 
+
+```
+yarn start
+```
+
+## Construire un binaire Windows
+
+```
+yarn dist
+```
+
+Les binaires sont dans le dossier `packages`.
