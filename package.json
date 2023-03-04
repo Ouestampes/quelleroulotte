@@ -9,7 +9,7 @@
     "build": "yarn typecheck && node util/esbuild.js",
     "typecheck": "tsc",
     "electron:start": "electron .",
-	"dist": "yarn build && electron-builder --dir"
+    "dist": "yarn build && electron-builder --dir"
   },
   "repository": {
     "type": "git",
@@ -29,23 +29,26 @@
   "devDependencies": {
     "@types/google-spreadsheet": "^3.3.1",
     "@types/lodash": "^4.14.191",
-    "@types/node": "^18.14.2",
+    "@types/node": "^18.14.6",
     "@types/source-map-support": "^0.5.6",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
-    "electron": "^23.1.1",
+    "electron": "^23.1.2",
     "electron-builder": "^23.6.0",
-    "esbuild": "^0.17.10",
+    "esbuild": "^0.17.11",
     "eslint": "^8.35.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-security": "^1.7.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "execa": "^7.0.0",
-    "rimraf": "^4.1.2",
+    "rimraf": "^4.3.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
   },
@@ -56,7 +59,7 @@
       "target": [
         "zip"
       ],
-	  "compression": "normal",
+      "compression": "normal",
       "publisherName": "Ouestampes",
       "verifyUpdateCodeSignature": false
     },
