@@ -16,11 +16,11 @@ export async function loadRoulotteFromGsheet() {
 	const roulotte: Question[] = [];
 	for (const row of rows) {
 		roulotte.push({
-			id: +row['N°'],
-			category: row['Catégorie'],
-			theme: row['Thème'],
-			question: row['Question (CTRL + flèche du bas pour aller à la dernière ligne remplie) --- Noms d\'oeuvres en italique'],
-			answer: row['Réponse'],
+			id: +row._rawData[0],
+			category: row._rawData[1],
+			theme: row._rawData[2],
+			question: row._rawData[3],
+			answer: row._rawData[4],
 		});
 	}
 	await fs.writeFile(resolve(getState().dataPath, 'roulotte.json'), JSON.stringify(roulotte, null, 2), 'utf-8');
