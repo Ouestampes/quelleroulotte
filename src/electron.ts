@@ -1,6 +1,7 @@
-import { app, BrowserWindow, dialog, Menu } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, Menu } from 'electron';
 import { resolve } from 'path';
 
+import { loadRoulotteFromGsheet } from './gsheet';
 import { initMenu } from './menu';
 import { getState } from './util/state';
 
@@ -10,7 +11,19 @@ let publicWindow: Electron.BrowserWindow;
 export function startElectron() {
 	/** On attend l'évènement ready d'Electron pour commencer à afficher des trucs */
 	app.on('ready', async () => {
+		loadHandles();
 		await initElectronWindow();
+	});
+}
+
+function loadHandles() {
+	ipcMain.handle('gsheet:download', async () => {
+		try {
+			await loadRoulotteFromGsheet();
+		} catch (err) {
+			// Non-fatal, on va charger le fichier depuis le fichier
+			await showLoadError();
+		}
 	});
 }
 

@@ -8,7 +8,7 @@ ipcRenderer.on('questionUpdated', (_, data) => {
 
   question.innerHTML = data.question;
   id.innerHTML = data.id;
-	
+
   // Réinitialiser l'affichage de la réponse
   const answer = document.querySelector('.ip--answer');
   answer.innerHTML = '';
