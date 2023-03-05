@@ -1,0 +1,10 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    commit-message:
+      prefix: chore
+    schedule:
+      interval: daily
+      time: '00:00'
