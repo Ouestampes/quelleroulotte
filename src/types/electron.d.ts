@@ -1,7 +1,9 @@
-import { MenuItem, MenuItemConstructorOptions } from 'electron';
+import { MenuItem, MenuItemConstructorOptions } from "electron";
 
 export interface MenuItemBuilderOptions {
-	isMac: boolean;
+  isMac: boolean;
 }
 
-export type MenuItemBuilderFunction = (options?: MenuItemBuilderOptions) => MenuItemConstructorOptions | MenuItem;
+export type MenuItemBuilderFunction = (
+  options?: MenuItemBuilderOptions
+) => MenuItemConstructorOptions | MenuItem;

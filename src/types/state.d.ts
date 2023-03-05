@@ -1,10 +1,10 @@
-import { Game } from './roulotte';
+import { Game } from "./roulotte";
 
 export interface State {
-	appPath?: string;
-	dataPath?: string;
-	resourcePath?: string;
-	publicFullscreen?: boolean;
-	lastUpdate?: Date;
-	game?: Game;
+  appPath?: string;
+  dataPath?: string;
+  resourcePath?: string;
+  publicFullscreen?: boolean;
+  lastUpdate?: Date;
+  game?: Game;
 }
