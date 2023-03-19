@@ -23,5 +23,10 @@ body {
 
 footer {
     display: flex;
+    flex-direction: column;
+}
+
+.footer-actions {
+    display: flex;
     justify-content: space-evenly;
 }

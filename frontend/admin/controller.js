@@ -2,6 +2,11 @@
 
 const ipcRenderer = require("electron").ipcRenderer;
 
+ipcRenderer.on("questionsLoaded", (_, data) => {
+  const nbLoaded = document.querySelector(".ip--nbLoaded");
+  nbLoaded.innerHTML = data;
+});
+
 ipcRenderer.on("questionUpdated", (_, data) => {
   const question = document.querySelector(".ip--question");
   const id = document.querySelector(".ip--id");

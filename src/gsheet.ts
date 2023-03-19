@@ -3,6 +3,7 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
 import { markdown } from "markdown-pro";
 import { resolve } from "path";
 
+import { emitController } from "./electron";
 import { Question } from "./types/roulotte";
 import { getState } from "./util/state";
 
@@ -32,4 +33,5 @@ export async function loadRoulotteFromGsheet() {
     JSON.stringify(roulotte, null, 2),
     "utf-8"
   );
+  emitController("questionsLoaded", roulotte.length);
 }

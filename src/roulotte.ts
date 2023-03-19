@@ -23,6 +23,7 @@ export async function loadRoulotteFromFile() {
   }
   const raw = await fs.readFile(roulotteFile, "utf-8");
   roulotte = JSON.parse(raw);
+  emitController("questionsLoaded", roulotte.length);
 }
 
 /** Démarrer une partie */
