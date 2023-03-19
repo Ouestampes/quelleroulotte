@@ -1,29 +1,49 @@
 <html>
-	<head>
-		<link rel="stylesheet" href="controller.css">
-	</head>
-	<body>
-		<div class="panel">
-			Question : <div class="ip--question"></div><br/>
-			N° : <div class="ip--id"></div><br/>
-			Réponse : <div class="ip--answer"></div><br/>
-			Temps écoulé : <div class="ip--timer"></div>s<br/>
+
+<head>
+	<link rel="stylesheet" href="controller.css">
+</head>
+
+<body>
+	<div class="panel">
+		<div>
+			Question : <span class="ip--question"></span>
+		</div>
+		<div>
+			<p>N° : <span class="ip--id"></span></p>
+		</div>
+		<div>
+			Réponse : <span class="ip--answer"></span>
+		</div>
+		<div>
+			<p>Temps écoulé : <span class="ip--timer"></span>s</p>
 		</div>
 
-		<div class="actions">
-			<button id="previous" title="Question précédente">&laquo;</button>
-			<button id="reveal" title="Réveler la réponse au public">&diams;</button>
-			<button id="next" title="Question suivante">&raquo;</button>
+		<div class="small-actions">
+			<button id="start" class="paused stopped">▶ Lancer le jeu</button>
+			<button id="pause" class="started">⏸ Mettre le jeu en pause</button>
+			<button id="stop" class="started paused">⏹ Arrêter le jeu</button>
 		</div>
+	</div>
 
-		<footer>
-			<div class="footer-actions">
-				<button id="goto-last">Aller à la dernière question</button>
-				<button id="dl-again">Re-télécharger la liste des questions</button>
-			</div>
-			<br />
-			Nombre de questions chargés : <div class="ip--nbLoaded"></div>
-		</footer>
-	</body>
+	<div class="large-actions started">
+		<button id="previous" title="Question précédente">⏪</button>
+		<button id="reveal" title="Réveler la réponse au public">⏺</button>
+		<button id="next" title="Question suivante">⏩</button>
+	</div>
+
+	<footer>
+		<div class="small-actions">
+			<button id="goto-last">Aller à la dernière question</button>
+			<button id="dl-again">Re-télécharger la liste des questions</button>
+		</div>
+		<br />
+		<div>
+			Nombre de questions chargés : <span class="ip--nbLoaded"></span>
+		</div>
+	</footer>
+
 	<script src="controller.js"></script>
+</body>
+
 </html>

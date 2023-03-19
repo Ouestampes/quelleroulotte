@@ -8,6 +8,7 @@ let state: State = {
   publicFullscreen: false,
   game: {
     status: "stopped",
+    questions: [],
   },
 };
 

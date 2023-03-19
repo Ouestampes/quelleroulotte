@@ -9,13 +9,21 @@ body {
     justify-content: space-between;
 }
 
-.actions {
+.panel {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+}
+
+.small-actions {
+    display: flex;
     flex: .5;
 }
 
-.actions button {
+.small-actions button {
+    margin-right: 1rem;
+}
+
+.large-actions button {
     font-size: xxx-large;
     flex: 1;
     margin: 1rem;

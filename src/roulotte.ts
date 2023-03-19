@@ -26,6 +26,11 @@ export async function loadRoulotteFromFile() {
   emitController("questionsLoaded", roulotte.length);
 }
 
+function updateControls(status: string) {
+  updateMenu();
+  emitController("status", status);
+}
+
 /** Démarrer une partie */
 export function startGame(categories: string[]) {
   setState({
@@ -47,7 +52,6 @@ export function startGame(categories: string[]) {
   // On initialise le timer
   timer = 0;
   unpauseGame();
-  updateMenu();
 }
 
 function timePasses() {
@@ -68,7 +72,7 @@ export function stopGame() {
     },
   });
   filteredRoulotte = [];
-  updateMenu();
+  updateControls("stopped");
   emitQuestion({
     question: "",
     category: "",
@@ -86,12 +90,26 @@ export function pauseGame() {
       status: "paused",
     },
   });
-  updateMenu();
+  updateControls("paused");
+}
+
+export function startOrUnpause() {
+  const game = getState().game;
+  switch (game.status) {
+    case "stopped":
+      startGame([]);
+      break;
+    case "paused":
+      unpauseGame();
+      break;
+    default:
+      break;
+  }
 }
 
 export function unpauseGame() {
   timerInterval = setInterval(timePasses, 1000);
-  updateMenu();
+  updateControls("started");
 }
 
 export function nextQuestion() {
@@ -132,7 +150,6 @@ export function prevQuestion() {
 
 export function lastQuestion() {
   const game = getState().game;
-  console.log(JSON.stringify(game, null, 2));
   // La position démarre à 0
   game.pos = game.questions.length - 1;
   setState({ game });

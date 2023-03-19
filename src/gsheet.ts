@@ -20,13 +20,15 @@ export async function loadRoulotteFromGsheet() {
   const rows = await sheet.getRows();
   const roulotte: Question[] = [];
   for (const row of rows) {
-    roulotte.push({
-      id: +row._rawData[0],
-      category: row._rawData[1],
-      theme: row._rawData[2],
-      question: markdown(row._rawData[3], { useWrapper: false }),
-      answer: markdown(row._rawData[4], { useWrapper: false }),
-    });
+    if (row._rawData.length === 5) {
+      roulotte.push({
+        id: +row._rawData[0],
+        category: row._rawData[1],
+        theme: row._rawData[2],
+        question: markdown(row._rawData[3], { useWrapper: false }),
+        answer: markdown(row._rawData[4], { useWrapper: false }),
+      });
+    }
   }
   await fs.writeFile(
     resolve(getState().dataPath, "roulotte.json"),

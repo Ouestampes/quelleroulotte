@@ -6,8 +6,11 @@ import { initMenu } from "./menu";
 import {
   lastQuestion,
   nextQuestion,
+  pauseGame,
   prevQuestion,
   revealCurrentAnswer,
+  startOrUnpause,
+  stopGame,
 } from "./roulotte";
 import { getState } from "./util/state";
 
@@ -36,6 +39,9 @@ function loadHandles() {
   ipcMain.handle("roulotte:next", nextQuestion);
   ipcMain.handle("roulotte:reveal", revealCurrentAnswer);
   ipcMain.handle("roulotte:gotoLast", lastQuestion);
+  ipcMain.handle("roulotte:start", startOrUnpause);
+  ipcMain.handle("roulotte:pause", pauseGame);
+  ipcMain.handle("roulotte:stop", stopGame);
 }
 
 async function initElectronWindow() {

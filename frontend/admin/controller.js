@@ -21,12 +21,35 @@ ipcRenderer.on("time", (_, data) => {
   timer.innerHTML = data;
 });
 
+ipcRenderer.on("status", (_, state) => {
+  document
+    .querySelectorAll(".started, .paused, .stopped")
+    .forEach(
+      (e) => (e.style.display = e.classList.contains(state) ? "flex" : "none")
+    );
+});
+
+const startButton = document.getElementById("start");
+startButton.addEventListener("click", async () => {
+  await ipcRenderer.invoke("roulotte:start");
+});
+
+const pauseButton = document.getElementById("pause");
+pauseButton.addEventListener("click", async () => {
+  await ipcRenderer.invoke("roulotte:pause");
+});
+
+const stopButton = document.getElementById("stop");
+stopButton.addEventListener("click", async () => {
+  await ipcRenderer.invoke("roulotte:stop");
+});
+
 const dlAgainButton = document.getElementById("dl-again");
 dlAgainButton.addEventListener("click", async () => {
   await ipcRenderer.invoke("gsheet:download");
 });
 
-const gotoLastButton = document.getElementById("gotoLast");
+const gotoLastButton = document.getElementById("goto-last");
 gotoLastButton.addEventListener("click", async () => {
   await ipcRenderer.invoke("roulotte:gotoLast");
 });
