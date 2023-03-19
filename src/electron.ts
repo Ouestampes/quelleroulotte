@@ -46,7 +46,10 @@ function loadHandles() {
   ipcMain.handle("roulotte:next", nextQuestion);
   ipcMain.handle("roulotte:reveal", revealCurrentAnswer);
   ipcMain.handle("roulotte:gotoLast", lastQuestion);
-  ipcMain.handle("roulotte:start", startOrUnpause);
+  ipcMain.handle("roulotte:start", () => {
+    createPublicWindow();
+    startOrUnpause();
+  });
   ipcMain.handle("roulotte:pause", pauseGame);
   ipcMain.handle("roulotte:stop", stopGame);
 }
