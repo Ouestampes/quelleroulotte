@@ -1,4 +1,11 @@
-import { app, BrowserWindow, dialog, ipcMain, Menu } from "electron";
+import {
+  app,
+  BrowserWindow,
+  dialog,
+  ipcMain,
+  Menu,
+  nativeImage,
+} from "electron";
 import { resolve } from "path";
 
 import { loadRoulotteFromGsheet } from "./gsheet";
@@ -65,7 +72,9 @@ async function createControllerWindow() {
     height: 400,
     show: false,
     title: "Quelle Roulotte ? - Contrôleur",
-    // icon: resolve(state.resourcePath, 'build/icon1024.png'),
+    icon: nativeImage.createFromPath(
+      resolve(getState().resourcePath, "assets/icon.png")
+    ),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -92,7 +101,9 @@ export async function createPublicWindow() {
     width: 500,
     height: 300,
     title: "Quelle Roulotte ? - Public",
-    // icon: resolve(state.resourcePath, 'build/icon1024.png'),
+    icon: nativeImage.createFromPath(
+      resolve(getState().resourcePath, "assets/icon.png")
+    ),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
