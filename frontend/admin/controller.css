@@ -32,13 +32,3 @@ body {
     flex: 1;
     margin: 1rem;
 }
-
-footer {
-    display: flex;
-    flex-direction: column;
-}
-
-.footer-actions {
-    display: flex;
-    justify-content: space-evenly;
-}

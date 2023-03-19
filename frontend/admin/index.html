@@ -22,6 +22,7 @@
 		<div class="small-actions">
 			<button id="start" class="paused stopped">▶ Lancer le jeu</button>
 			<button id="pause" class="started">⏸ Mettre le jeu en pause</button>
+			<button id="goto-last" class="started">⏭ Aller à la dernière question</button>
 			<button id="stop" class="started paused">⏹ Arrêter le jeu</button>
 		</div>
 	</div>
@@ -33,14 +34,8 @@
 	</div>
 
 	<footer>
-		<div class="small-actions">
-			<button id="goto-last">Aller à la dernière question</button>
-			<button id="dl-again">Re-télécharger la liste des questions</button>
-		</div>
-		<br />
-		<div>
-			Nombre de questions chargés : <span class="ip--nbLoaded"></span>
-		</div>
+		Nombre de questions chargés : <span class="ip--nbLoaded"></span>
+		<button id="dl-again">🔄 Re-télécharger la liste des questions</button>
 	</footer>
 
 	<script src="controller.js"></script>
