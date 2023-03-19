@@ -9,6 +9,10 @@ body {
     justify-content: space-between;
 }
 
+.started {
+    display: none;
+}
+
 .panel {
     display: flex;
     flex-direction: column;
