@@ -3,6 +3,12 @@ import { resolve } from "path";
 
 import { loadRoulotteFromGsheet } from "./gsheet";
 import { initMenu } from "./menu";
+import {
+  lastQuestion,
+  nextQuestion,
+  prevQuestion,
+  revealCurrentAnswer,
+} from "./roulotte";
 import { getState } from "./util/state";
 
 let controllerWindow: Electron.BrowserWindow;
@@ -25,6 +31,11 @@ function loadHandles() {
       await showLoadError();
     }
   });
+
+  ipcMain.handle("roulotte:previous", prevQuestion);
+  ipcMain.handle("roulotte:next", nextQuestion);
+  ipcMain.handle("roulotte:reveal", revealCurrentAnswer);
+  ipcMain.handle("roulotte:gotoLast", lastQuestion);
 }
 
 async function initElectronWindow() {

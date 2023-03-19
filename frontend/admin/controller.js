@@ -20,3 +20,23 @@ const dlAgainButton = document.getElementById("dl-again");
 dlAgainButton.addEventListener("click", async () => {
   await ipcRenderer.invoke("gsheet:download");
 });
+
+const gotoLastButton = document.getElementById("gotoLast");
+gotoLastButton.addEventListener("click", async () => {
+  await ipcRenderer.invoke("roulotte:gotoLast");
+});
+
+const previousButton = document.getElementById("previous");
+previousButton.addEventListener("click", async () => {
+  await ipcRenderer.invoke("roulotte:previous");
+});
+
+const nextButton = document.getElementById("next");
+nextButton.addEventListener("click", async () => {
+  await ipcRenderer.invoke("roulotte:next");
+});
+
+const revealButton = document.getElementById("reveal");
+revealButton.addEventListener("click", async () => {
+  await ipcRenderer.invoke("roulotte:reveal");
+});

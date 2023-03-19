@@ -9,7 +9,8 @@
     "build": "yarn typecheck && node util/esbuild.js",
     "typecheck": "tsc",
     "electron:start": "electron .",
-    "dist": "yarn build && electron-builder --dir"
+    "dist": "yarn build && electron-builder --dir",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,7 @@
     "@typescript-eslint/parser": "^5.55.0",
     "electron": "^23.1.4",
     "electron-builder": "^23.6.0",
-    "esbuild": "^0.17.11",
+    "esbuild": "^0.17.12",
     "eslint": "^8.36.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
@@ -53,7 +54,7 @@
     "prettier": "^2.8.4",
     "rimraf": "^4.4.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.2"
   },
   "build": {
     "appId": "QuelleRoulotte",

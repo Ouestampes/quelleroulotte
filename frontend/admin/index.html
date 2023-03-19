@@ -1,13 +1,25 @@
 <html>
+	<head>
+		<link rel="stylesheet" href="controller.css">
+	</head>
 	<body>
-		QUOI?
-		<br/>
-		Question : <div class="ip--question"></div><br/>
-		N° : <div class="ip--id"></div><br/>
-		Réponse : <div class="ip--answer"></div><br/>
-		Temps écoulé : <div class="ip--timer"></div>s<br/>
+		<div class="panel">
+			Question : <div class="ip--question"></div><br/>
+			N° : <div class="ip--id"></div><br/>
+			Réponse : <div class="ip--answer"></div><br/>
+			Temps écoulé : <div class="ip--timer"></div>s<br/>
+		</div>
 
-		<button id="dl-again">Re-télécharger la liste des questions</button>
+		<div class="actions">
+			<button id="previous" title="Question précédente">&laquo;</button>
+			<button id="reveal" title="Réveler la réponse au public">&diams;</button>
+			<button id="next" title="Question suivante">&raquo;</button>
+		</div>
+
+		<footer>
+			<button id="goto-last">Aller à la dernière question</button>
+			<button id="dl-again">Re-télécharger la liste des questions</button>
+		</footer>
 	</body>
 	<script src="controller.js"></script>
 </html>
