@@ -4,7 +4,6 @@ import {
   dialog,
   ipcMain,
   Menu,
-  nativeImage,
 } from "electron";
 import { resolve } from "path";
 
@@ -75,9 +74,7 @@ async function createControllerWindow() {
     height: 400,
     show: false,
     title: "Quelle Roulotte ? - Contrôleur",
-    icon: nativeImage.createFromPath(
-      resolve(getState().resourcePath, "assets/icon.png")
-    ),
+    icon: resolve(getState().resourcePath, 'assets/icon.png'),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -104,9 +101,7 @@ export async function createPublicWindow() {
     width: 500,
     height: 300,
     title: "Quelle Roulotte ? - Public",
-    icon: nativeImage.createFromPath(
-      resolve(getState().resourcePath, "assets/icon.png")
-    ),
+    icon: resolve(getState().resourcePath, 'assets/icon.png'),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
