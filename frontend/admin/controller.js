@@ -68,3 +68,20 @@ const revealButton = document.getElementById("reveal");
 revealButton.addEventListener("click", async () => {
   await ipcRenderer.invoke("roulotte:reveal");
 });
+
+document.addEventListener("keydown", async (e) => {
+  switch (e.key) {
+    case "ArrowLeft":
+      await ipcRenderer.invoke("roulotte:previous");
+      break;
+    case "ArrowRight":
+      await ipcRenderer.invoke("roulotte:next");
+      break;
+    case "ArrowUp":
+    case "ArrowDown":
+      await ipcRenderer.invoke("roulotte:reveal");
+      break;
+    default:
+      break;
+  }
+});

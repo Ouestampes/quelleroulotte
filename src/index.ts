@@ -80,6 +80,7 @@ async function main() {
   try {
     await loadRoulotteFromGsheet();
   } catch (err) {
+    console.error(err);
     // Non-fatal, on va charger le fichier depuis le fichier
     await showLoadError();
   }
