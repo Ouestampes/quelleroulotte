@@ -7,4 +7,5 @@ export interface State {
   publicFullscreen?: boolean;
   lastUpdate?: Date;
   game?: Game;
+  waitingMessage: string;
 }

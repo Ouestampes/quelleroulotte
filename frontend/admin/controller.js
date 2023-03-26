@@ -21,11 +21,11 @@ ipcRenderer.on("time", (_, data) => {
   timer.innerHTML = data;
 });
 
-ipcRenderer.on("status", (_, state) => {
+ipcRenderer.on("status", (_, data) => {
   document
     .querySelectorAll(".started, .paused, .stopped")
     .forEach(
-      (e) => (e.style.display = e.classList.contains(state) ? "flex" : "none")
+      (e) => (e.style.display = e.classList.contains(data) ? "flex" : "none")
     );
 });
 
@@ -69,7 +69,15 @@ revealButton.addEventListener("click", async () => {
   await ipcRenderer.invoke("roulotte:reveal");
 });
 
-document.addEventListener("keydown", async (e) => {
+const waitingButton = document.getElementById("waiting");
+waitingButton.addEventListener("click", async () => {
+  await ipcRenderer.invoke(
+    "roulotte:waiting",
+    document.getElementsByName("waiting")[0].value
+  );
+});
+
+window.addEventListener("keydown", async (e) => {
   switch (e.key) {
     case "ArrowLeft":
       await ipcRenderer.invoke("roulotte:previous");

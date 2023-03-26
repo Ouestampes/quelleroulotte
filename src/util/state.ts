@@ -5,7 +5,7 @@ import { State } from "../types/state";
 
 // Etat initial :
 let state: State = {
-  publicFullscreen: false,
+  waitingMessage: "On arrive bientôt !",
   game: {
     status: "stopped",
     questions: [],

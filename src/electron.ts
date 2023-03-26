@@ -4,6 +4,7 @@ import { resolve } from "path";
 import { loadRoulotteFromGsheet } from "./gsheet";
 import { initMenu } from "./menu";
 import {
+  changeWaintingMessage,
   lastQuestion,
   nextQuestion,
   pauseGame,
@@ -45,6 +46,10 @@ function loadHandles() {
   });
   ipcMain.handle("roulotte:pause", pauseGame);
   ipcMain.handle("roulotte:stop", stopGame);
+  ipcMain.handle("roulotte:fullscreen", togglePublicFullscreen);
+  ipcMain.handle("roulotte:waiting", (_, message) =>
+    changeWaintingMessage(message)
+  );
 }
 
 async function initElectronWindow() {
@@ -94,6 +99,7 @@ export async function createPublicWindow() {
   publicWindow = new BrowserWindow({
     width: 500,
     height: 300,
+    show: false,
     title: "Quelle Roulotte ? - Public",
     icon: resolve(getState().resourcePath, "assets/icon.png"),
     webPreferences: {
@@ -101,13 +107,16 @@ export async function createPublicWindow() {
       contextIsolation: false,
     },
   });
+
   publicWindow.setMenu(null);
   publicWindow.webContents.session.clearCache();
   publicWindow?.loadURL(
     `file://${resolve(getState().resourcePath, "frontend/player/index.html")}`
   );
+
   publicWindow.once("ready-to-show", () => {
     publicWindow.show();
+    emitPublic("waiting", getState().waitingMessage);
   });
   publicWindow.on("closed", () => {
     publicWindow = null;
@@ -115,7 +124,7 @@ export async function createPublicWindow() {
 }
 
 export function togglePublicFullscreen() {
-  publicWindow?.setFullScreen(!getState().publicFullscreen);
+  publicWindow?.setFullScreen(!publicWindow.isFullScreen());
 }
 
 export function showPublicWindow() {

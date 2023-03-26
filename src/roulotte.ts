@@ -29,6 +29,7 @@ export async function loadRoulotteFromFile() {
 function updateControls(status: string) {
   updateMenu();
   emitController("status", status);
+  emitPublic("status", status);
 }
 
 /** Démarrer une partie */
@@ -110,6 +111,10 @@ export function startOrUnpause() {
 export function unpauseGame() {
   timerInterval = setInterval(timePasses, 1000);
   updateControls("started");
+}
+
+export function changeWaintingMessage(message: string) {
+  emitPublic("waiting", message);
 }
 
 export function nextQuestion() {
