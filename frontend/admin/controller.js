@@ -18,7 +18,21 @@ ipcRenderer.on("questionUpdated", (_, data) => {
 
 ipcRenderer.on("time", (_, data) => {
   const timer = document.querySelector(".ip--timer");
-  timer.innerHTML = data;
+  if (data === 0) return '0 secondes';
+	
+	const heures = Math.floor(data / 3600) % 24;
+	data -= heures * 3600;
+
+	const minutes = Math.floor(data / 60) % 60;
+	data -= minutes * 60;
+
+	const secondes = data % 60; / /normalement pas utile le modulo mais bon
+	let returnString = '';
+	if (heures !== 0) returnString += `${heures} heure(s) `;
+	if (minutes !== 0) returnString += `${minutes} minute(s) `;
+	if (secondes !== 0) returnString += `${secondes} seconde(s) `;
+	
+  timer.innerHTML = returnString;
 });
 
 ipcRenderer.on("status", (_, data) => {
