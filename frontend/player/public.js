@@ -11,7 +11,7 @@ ipcRenderer.on("status", (_, data) => {
   document
     .querySelectorAll(".started, .paused, .stopped")
     .forEach(
-      (e) => (e.style.display = e.classList.contains(data) ? "flex" : "none")
+      (e) => (e.style.display = e.classList.contains(data) ? "block" : "none")
     );
 });
 

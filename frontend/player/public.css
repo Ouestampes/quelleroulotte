@@ -6,8 +6,9 @@ html, body {
 
 body {
     flex: 1;
-    justify-content: space-around;
+    justify-content: space-evenly;
     margin: 0 5rem;
+    font-size: xx-large;
     text-align: center;
 }
 
