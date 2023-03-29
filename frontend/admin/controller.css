@@ -13,6 +13,14 @@ body {
     display: none;
 }
 
+.paused, .stopped {
+    display: flex;
+}
+
+.form-actions {
+    flex-direction: column;
+}
+
 .panel {
     display: flex;
     flex-direction: column;

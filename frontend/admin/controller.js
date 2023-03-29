@@ -86,11 +86,12 @@ revealButton.addEventListener("click", async () => {
   await ipcRenderer.invoke("roulotte:reveal");
 });
 
-const waitingButton = document.getElementById("waiting");
-waitingButton.addEventListener("click", async () => {
+const textsButton = document.getElementById("texts");
+textsButton.addEventListener("click", async () => {
   await ipcRenderer.invoke(
-    "roulotte:waiting",
-    document.getElementsByName("waiting")[0].value
+    "roulotte:texts",
+    document.getElementById("title").value,
+    document.getElementById("waiting").value
   );
 });
 

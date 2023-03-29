@@ -11,6 +11,9 @@ let filteredRoulotte: Question[];
 let timer = 0;
 let timerInterval: Timeout;
 
+export const DEFAULT_WAITING_MESSAGE = "On arrive !";
+export const DEFAULT_TITLE_MESSAGE = "La KerRoulette (nom provisoire)";
+
 /** Chargement depuis le fichier JSON en cache puis  */
 export async function loadRoulotteFromFile() {
   const roulotteFile = resolve(getState().dataPath, "roulotte.json");
@@ -113,8 +116,8 @@ export function unpauseGame() {
   updateControls("started");
 }
 
-export function changeWaintingMessage(message: string) {
-  emitPublic("waiting", message);
+export function changeTexts(texts: string[]) {
+  emitPublic("texts", texts);
 }
 
 export function nextQuestion() {

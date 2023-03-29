@@ -16,6 +16,10 @@ body {
     display: none;
 }
 
+.paused, .stopped {
+    display: block;
+}
+
 .question-id {
     position: absolute;
     bottom: 0;

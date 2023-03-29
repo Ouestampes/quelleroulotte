@@ -16,7 +16,7 @@
 			Réponse : <div class="ip--answer"></div>
 		</div>
 		<div>
-			<p>Temps écoulé : <span class="ip--timer"></span>s</p>
+			<p>Temps écoulé : <span class="ip--timer"></span></p>
 		</div>
 
 		<div class="small-actions">
@@ -27,9 +27,18 @@
 		</div>
 	</div>
 
-	<div class="stopped">
-		<input type="text" name="waiting">
-		<button id="waiting">💌 Changer le message d'attente</button>
+	<div class="form-actions stopped">
+		<div class="small-actions">
+			<label for="title">🎲 Titre du jeu</label>&nbsp;
+			<input type="text" name="title" id="title">
+		</div>
+		<div class="small-actions">
+			<label for="waiting">💌 Message d'attente</label>&nbsp;
+			<input type="text" name="waiting" id="waiting">
+		</div>
+		<div class="small-actions">
+			<button id="texts">✔️ Valider</button>
+		</div>
 	</div>
 
 	<div class="large-actions started">

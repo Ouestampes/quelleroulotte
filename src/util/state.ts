@@ -5,7 +5,6 @@ import { State } from "../types/state";
 
 // Etat initial :
 let state: State = {
-  waitingMessage: "On arrive bientôt !",
   game: {
     status: "stopped",
     questions: [],

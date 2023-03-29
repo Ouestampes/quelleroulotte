@@ -4,7 +4,9 @@ import { resolve } from "path";
 import { loadRoulotteFromGsheet } from "./gsheet";
 import { initMenu } from "./menu";
 import {
-  changeWaintingMessage,
+  changeTexts,
+  DEFAULT_TITLE_MESSAGE,
+  DEFAULT_WAITING_MESSAGE,
   lastQuestion,
   nextQuestion,
   pauseGame,
@@ -47,8 +49,8 @@ function loadHandles() {
   ipcMain.handle("roulotte:pause", pauseGame);
   ipcMain.handle("roulotte:stop", stopGame);
   ipcMain.handle("roulotte:fullscreen", togglePublicFullscreen);
-  ipcMain.handle("roulotte:waiting", (_, message) =>
-    changeWaintingMessage(message)
+  ipcMain.handle("roulotte:texts", (_, title, waiting) =>
+    changeTexts([title, waiting])
   );
 }
 
@@ -116,7 +118,7 @@ export async function createPublicWindow() {
 
   publicWindow.once("ready-to-show", () => {
     publicWindow.show();
-    emitPublic("waiting", getState().waitingMessage);
+    emitPublic("texts", [DEFAULT_TITLE_MESSAGE, DEFAULT_WAITING_MESSAGE]);
   });
   publicWindow.on("closed", () => {
     publicWindow = null;

@@ -2,9 +2,11 @@
 
 const ipcRenderer = require("electron").ipcRenderer;
 
-ipcRenderer.on("waiting", (_, data) => {
-  const waiting = document.querySelector(".ip--waiting");
-  waiting.innerHTML = data;
+ipcRenderer.on("texts", (_, texts) => {
+  const ipTitle = document.querySelector(".ip--title");
+  ipTitle.innerHTML = texts[0];
+  const ipWaiting = document.querySelector(".ip--waiting");
+  ipWaiting.innerHTML = texts[1];
 });
 
 ipcRenderer.on("status", (_, data) => {
