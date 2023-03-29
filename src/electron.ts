@@ -75,7 +75,7 @@ async function createControllerWindow() {
     height: 400,
     show: false,
     title: "Quelle Roulotte ? - Contrôleur",
-    icon: resolve(getState().resourcePath, "assets/icon.png"),
+    icon: resolve(getState().resourcePath, "frontend/assets/icon.png"),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -103,7 +103,7 @@ export async function createPublicWindow() {
     height: 300,
     show: false,
     title: "Quelle Roulotte ? - Public",
-    icon: resolve(getState().resourcePath, "assets/icon.png"),
+    icon: resolve(getState().resourcePath, "frontend/assets/icon.png"),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
