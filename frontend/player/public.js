@@ -27,6 +27,9 @@ ipcRenderer.on("questionUpdated", (_, data) => {
   const category = document.querySelector(".ip--category");
   category.innerHTML = data.category;
 
+  const theme = document.querySelector(".ip--theme");
+  theme.innerHTML = data.theme;
+
   // Réinitialiser l'affichage de la réponse
   const answer = document.querySelector(".ip--answer");
   answer.innerHTML = "";

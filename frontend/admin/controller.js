@@ -28,10 +28,12 @@ ipcRenderer.on("questionUpdated", (_, data) => {
   const id = document.querySelector(".ip--id");
   const answer = document.querySelector(".ip--answer");
   const category = document.querySelector(".ip--category");
+  const theme = document.querySelector(".ip--theme");
   question.innerHTML = data.question;
   id.innerHTML = data.id;
   answer.innerHTML = data.answer;
   category.innerHTML = data.category;
+  theme.innerHTML = data.theme;
 });
 
 ipcRenderer.on("time", (_, data) => {
