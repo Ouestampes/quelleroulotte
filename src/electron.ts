@@ -42,15 +42,15 @@ function loadHandles() {
   ipcMain.handle("roulotte:next", nextQuestion);
   ipcMain.handle("roulotte:reveal", revealCurrentAnswer);
   ipcMain.handle("roulotte:gotoLast", lastQuestion);
-  ipcMain.handle("roulotte:start", () => {
+  ipcMain.handle("roulotte:start", (_, categories: string[]) => {
     createPublicWindow();
-    startOrUnpause();
+    startOrUnpause(categories);
   });
   ipcMain.handle("roulotte:pause", pauseGame);
   ipcMain.handle("roulotte:stop", stopGame);
   ipcMain.handle("roulotte:fullscreen", togglePublicFullscreen);
   ipcMain.handle("roulotte:texts", (_, title, waiting) =>
-    changeTexts([title, waiting])
+    changeTexts(title, waiting)
   );
 }
 
@@ -118,7 +118,10 @@ export async function createPublicWindow() {
 
   publicWindow.once("ready-to-show", () => {
     publicWindow.show();
-    emitPublic("texts", [DEFAULT_TITLE_MESSAGE, DEFAULT_WAITING_MESSAGE]);
+    emitPublic("texts", {
+      title: DEFAULT_TITLE_MESSAGE,
+      waiting: DEFAULT_WAITING_MESSAGE,
+    });
   });
   publicWindow.on("closed", () => {
     publicWindow = null;

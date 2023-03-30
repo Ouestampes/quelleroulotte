@@ -5,6 +5,18 @@
 </head>
 
 <body>
+	<div id="categories-modal">
+		<div class="categories-front">
+			<p>
+				<b>Catégories du jeu</b>
+				<br />
+				<i>Si rien n'est coché, toutes les catégories seront sélectionnés</i>
+			</p>
+			<form id="categories-radios"></form>
+			<button id="categories-submit">❌ Fermer</button>
+		</div>
+	</div>
+
 	<div class="panel">
 		<div>N° : <span class="ip--id"></span></div>
 		<div>Catégorie : <span class="ip--category"></span></div>
@@ -21,6 +33,7 @@
 
 		<div class="small-actions">
 			<button id="start" class="paused stopped">▶ Lancer le jeu</button>
+			<button id="categories" class="paused stopped">♨️ Sélectionner les catégories</button>
 			<button id="pause" class="started">⏸ Mettre le jeu en pause</button>
 			<button id="goto-last" class="started">⏭ Aller à la dernière question</button>
 			<button id="stop" class="started paused">⏹ Arrêter le jeu</button>

@@ -26,13 +26,19 @@ export async function loadRoulotteFromFile() {
   }
   const raw = await fs.readFile(roulotteFile, "utf-8");
   roulotte = JSON.parse(raw);
-  emitController("questionsLoaded", roulotte.length);
+  sendQuestionsLoaded(roulotte.length, [
+    ...new Set(roulotte.map((question) => question.category)),
+  ]);
 }
 
 function updateControls(status: string) {
   updateMenu();
   emitController("status", status);
   emitPublic("status", status);
+}
+
+export function sendQuestionsLoaded(length: number, categories: string[]) {
+  emitController("questionsLoaded", { length, categories });
 }
 
 /** Démarrer une partie */
@@ -97,11 +103,11 @@ export function pauseGame() {
   updateControls("paused");
 }
 
-export function startOrUnpause() {
+export function startOrUnpause(categories: string[] = []) {
   const game = getState().game;
   switch (game.status) {
     case "stopped":
-      startGame([]);
+      startGame(categories);
       break;
     case "paused":
       unpauseGame();
@@ -116,8 +122,8 @@ export function unpauseGame() {
   updateControls("started");
 }
 
-export function changeTexts(texts: string[]) {
-  emitPublic("texts", texts);
+export function changeTexts(title: string, waiting: string) {
+  emitPublic("texts", { title, waiting });
 }
 
 export function nextQuestion() {

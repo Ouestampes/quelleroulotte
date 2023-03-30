@@ -3,7 +3,7 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
 import { markdown } from "markdown-pro";
 import { resolve } from "path";
 
-import { emitController } from "./electron";
+import { sendQuestionsLoaded } from "./roulotte";
 import { Question } from "./types/roulotte";
 import { getState } from "./util/state";
 
@@ -35,5 +35,7 @@ export async function loadRoulotteFromGsheet() {
     JSON.stringify(roulotte, null, 2),
     "utf-8"
   );
-  emitController("questionsLoaded", roulotte.length);
+  sendQuestionsLoaded(roulotte.length, [
+    ...new Set(roulotte.map((question) => question.category)),
+  ]);
 }

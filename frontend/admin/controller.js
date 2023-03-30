@@ -4,7 +4,23 @@ const ipcRenderer = require("electron").ipcRenderer;
 
 ipcRenderer.on("questionsLoaded", (_, data) => {
   const nbLoaded = document.querySelector(".ip--nbLoaded");
-  nbLoaded.innerHTML = data;
+  nbLoaded.innerHTML = data.length;
+
+  document.getElementById("categories-radios").innerHTML = "";
+
+  for (const category of data.categories) {
+    const radio = document.createElement("input");
+    radio.type = "checkbox";
+    radio.name = "categories[]";
+    radio.value = category;
+
+    const label = document.createElement("label");
+    label.innerHTML = category;
+
+    const br = document.createElement("br");
+
+    document.getElementById("categories-radios").append(radio, label, br);
+  }
 });
 
 ipcRenderer.on("questionUpdated", (_, data) => {
@@ -50,7 +66,8 @@ ipcRenderer.on("status", (_, data) => {
 
 const startButton = document.getElementById("start");
 startButton.addEventListener("click", async () => {
-  await ipcRenderer.invoke("roulotte:start");
+  const formData = new FormData(document.getElementById("categories-radios"));
+  await ipcRenderer.invoke("roulotte:start", [...formData.values()]);
 });
 
 const pauseButton = document.getElementById("pause");
@@ -96,6 +113,18 @@ textsButton.addEventListener("click", async () => {
     document.getElementById("waiting").value
   );
 });
+
+const showCategories = document.getElementById("categories");
+showCategories.addEventListener(
+  "click",
+  () => (document.getElementById("categories-modal").style.display = "block")
+);
+
+const submitCategories = document.getElementById("categories-submit");
+submitCategories.addEventListener(
+  "click",
+  () => (document.getElementById("categories-modal").style.display = "none")
+);
 
 window.addEventListener("keydown", async (e) => {
   switch (e.key) {

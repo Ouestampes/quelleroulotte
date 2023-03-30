@@ -4,9 +4,9 @@ const ipcRenderer = require("electron").ipcRenderer;
 
 ipcRenderer.on("texts", (_, texts) => {
   const ipTitle = document.querySelector(".ip--title");
-  ipTitle.innerHTML = texts[0];
+  ipTitle.innerHTML = texts.title;
   const ipWaiting = document.querySelector(".ip--waiting");
-  ipWaiting.innerHTML = texts[1];
+  ipWaiting.innerHTML = texts.waiting;
 });
 
 ipcRenderer.on("status", (_, data) => {
@@ -38,8 +38,22 @@ ipcRenderer.on("answerUpdated", (_, data) => {
 });
 
 window.addEventListener("keydown", async (e) => {
-  if (e.key === "F11") {
-    await ipcRenderer.invoke("roulotte:fullscreen");
+  switch (e.key) {
+    case "F11":
+      await ipcRenderer.invoke("roulotte:fullscreen");
+      break;
+    case "ArrowLeft":
+      await ipcRenderer.invoke("roulotte:previous");
+      break;
+    case "ArrowRight":
+      await ipcRenderer.invoke("roulotte:next");
+      break;
+    case "ArrowUp":
+    case "ArrowDown":
+      await ipcRenderer.invoke("roulotte:reveal");
+      break;
+    default:
+      break;
   }
 });
 
