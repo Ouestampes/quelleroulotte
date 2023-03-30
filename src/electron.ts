@@ -71,8 +71,8 @@ export async function updateMenu() {
 async function createControllerWindow() {
   // Create the browser window
   controllerWindow = new BrowserWindow({
-    width: 500,
-    height: 400,
+    width: 700,
+    height: 500,
     show: false,
     title: "Quelle Roulotte ? - Contrôleur",
     icon: resolve(getState().resourcePath, "frontend/assets/icon.png"),
@@ -99,8 +99,8 @@ async function createControllerWindow() {
 export async function createPublicWindow() {
   if (publicWindow) return;
   publicWindow = new BrowserWindow({
-    width: 500,
-    height: 300,
+    width: 1000,
+    height: 700,
     show: false,
     title: "Quelle Roulotte ? - Public",
     icon: resolve(getState().resourcePath, "frontend/assets/icon.png"),

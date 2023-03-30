@@ -24,6 +24,9 @@ ipcRenderer.on("questionUpdated", (_, data) => {
   const id = document.querySelector(".ip--id");
   id.innerHTML = data.id;
 
+  const category = document.querySelector(".ip--category");
+  category.innerHTML = data.category;
+
   // Réinitialiser l'affichage de la réponse
   const answer = document.querySelector(".ip--answer");
   answer.innerHTML = "";
