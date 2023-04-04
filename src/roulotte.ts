@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import { sample } from "lodash";
 import { resolve } from "path";
 import Timeout = NodeJS.Timeout;
-import { emitController, emitPublic, showLoadError, updateMenu } from "./electron";
+import { emitController, emitPublic, showError, updateMenu } from "./electron";
 import { Question } from "./types/roulotte";
 import { getState, setState } from "./util/state";
 import { saveRoulotteFromGsheet } from "./gsheet";
@@ -18,7 +18,7 @@ export async function loadRoulotte() {
 		await saveRoulotteFromGsheet();
 	} catch (err) {
 		// Non-fatal, on va charger le fichier depuis le fichier
-		await showLoadError();
+		await showError('Impossible de lire le Gsheet. On va charger un roulotte.json local s\'il existe.\nPour lire depuis le Gsheet, assurez-vous d\'avoir le fichier "creds.json" et/ou d\'être connecté à Internet.');
 	}
   await loadRoulotteFromFile();
 }
@@ -182,10 +182,16 @@ export async function reportQuestion() {
   await fs.writeFile(badFile, badQuestions.join("\n"), "utf-8");
 }
 
-export function goToQuestion(id: number) {
+export async function goToQuestion(id: number) {
   const game = getState().game;
   // On pioche la question depuis la roulotte principale peu importe les filtres. Si quelqu'un demande une question qui appartient pas à la catégorie voulue c'est SON problème :)
-  game.questions.push(roulotte.find((q) => q.id === id));
+  const question = roulotte.find((q) => q.id === id)
+  
+  if (!question) {
+    showError('Impossible de trouver cette question !')
+    return;
+  }
+  game.questions.push(question);
   game.pos += 1;
   setState({ game });
   emitQuestion(game.questions[game.pos]);

@@ -6,8 +6,8 @@ import { initMenu } from "./menu";
 import { gameTitleMessage, waitingMessage } from "./util/constants";
 import { getState } from "./util/state";
 
-let controllerWindow: Electron.BrowserWindow;
-let publicWindow: Electron.BrowserWindow;
+export let controllerWindow: Electron.BrowserWindow;
+export let publicWindow: Electron.BrowserWindow;
 
 export function startElectron() {
   // On attend l'évènement ready d'Electron pour commencer à afficher des trucs 
@@ -111,10 +111,9 @@ export function emitController(type: string, data: any) {
   if (controllerWindow) controllerWindow.webContents.send(type, data);
 }
 
-export async function showLoadError() {
+export async function showError(message: string) {
   await dialog.showMessageBox(controllerWindow, {
-    message:
-      "Impossible de lire le Gsheet. On va charger un roulotte.json local s'il existe.\nPour lire depuis le Gsheet, assurez-vous d'avoir le fichier \"creds.json\" et/ou d'être connecté à Internet.",
+    message,
     type: "error",
   });
 }
