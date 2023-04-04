@@ -109,18 +109,13 @@ export function pauseGame() {
   updateControls("paused");
 }
 
-export function startOrUnpause(categories: string[] = []) {
+export function startOrUnpause(categories: string[]) {
   const game = getState().game;
-  switch (game.status) {
-    case "stopped":
-      startGame(categories);
-      break;
-    case "paused":
-      unpauseGame();
-      break;
-    default:
-      break;
-  }
+  if (game.status === 'stopped') {
+    startGame(categories);
+  } else if (game.status === 'paused') {
+    unpauseGame();
+  }  
 }
 
 export function unpauseGame() {
