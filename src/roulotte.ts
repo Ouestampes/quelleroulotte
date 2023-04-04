@@ -12,6 +12,7 @@ let filteredRoulotte: Question[];
 let timer = 0;
 let timerInterval: Timeout;
 
+// Chargement de la roulotte, d'abord en la récupérant depuis un gsheet puis en la lisant depuis un fichier
 export async function loadRoulotte() {
   try {
 		await saveRoulotteFromGsheet();
@@ -34,19 +35,16 @@ export async function loadRoulotteFromFile() {
   }
   const raw = await fs.readFile(roulotteFile, "utf-8");
   roulotte = JSON.parse(raw);
-  sendQuestionsLoaded(roulotte.length, [
-    ...new Set(roulotte.map((question) => question.category)),
-  ]);
+  emitController("questionsLoaded", {
+    length: roulotte.length, 
+    categories: [...new Set(roulotte.map(question => question.category))]
+  });  
 }
 
 function updateControls(status: string) {
   updateMenu();
   emitController("status", status);
   emitPublic("status", status);
-}
-
-export function sendQuestionsLoaded(length: number, categories: string[]) {
-  emitController("questionsLoaded", { length, categories });
 }
 
 /** Démarrer une partie */
