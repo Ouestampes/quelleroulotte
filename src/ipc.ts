@@ -18,8 +18,8 @@ export function loadHandles() {
 	ipcMain.handle("roulotte:pause", pauseGame);
 	ipcMain.handle("roulotte:stop", stopGame);
 	ipcMain.handle("roulotte:fullscreen", togglePublicFullscreen);
-	ipcMain.handle("roulotte:texts", (_, title, waiting) =>
-		emitPublic("texts", { title, waiting })
+	ipcMain.handle("roulotte:updatePublicText", (_, title, waiting) =>
+		emitPublic("publicTextUpdated", { title, waiting })
 	);
   }
   

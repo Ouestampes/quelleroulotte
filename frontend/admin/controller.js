@@ -1,6 +1,6 @@
 /* eslint-env browser */
 
-const ipcRenderer = require('electron').ipcRenderer;
+import { ipcRenderer } from 'electron';
 
 ipcRenderer.on('questionsLoaded', (_, data) => {
   const nbLoaded = document.querySelector('.ip--nbLoaded');
@@ -58,7 +58,7 @@ ipcRenderer.on('time', (_, data) => {
   timer.innerHTML = returnString;
 });
 
-ipcRenderer.on('status', (_, data) => {
+ipcRenderer.on('statusUpdated', (_, data) => {
   document
     .querySelectorAll('.started, .paused, .stopped')
     .forEach(

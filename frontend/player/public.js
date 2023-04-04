@@ -1,15 +1,15 @@
 /* eslint-env browser */
 
-const ipcRenderer = require('electron').ipcRenderer;
+import { ipcRenderer } from 'electron';
 
-ipcRenderer.on('texts', (_, texts) => {
+ipcRenderer.on('publicTextUpdated', (_, texts) => {
   const ipTitle = document.querySelector('.ip--title');
   ipTitle.innerHTML = texts.title;
   const ipWaiting = document.querySelector('.ip--waiting');
   ipWaiting.innerHTML = texts.waiting;
 });
 
-ipcRenderer.on('status', (_, data) => {
+ipcRenderer.on('statusUpdated', (_, data) => {
   document
     .querySelectorAll('.started, .paused, .stopped')
     .forEach(

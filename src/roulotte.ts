@@ -43,8 +43,8 @@ export async function loadRoulotteFromFile() {
 
 function updateControls(status: string) {
   updateMenu();
-  emitController("status", status);
-  emitPublic("status", status);
+  emitController("statusUpdated", status);
+  emitPublic("statusUpdated", status);
 }
 
 /** Démarrer une partie */
@@ -186,11 +186,12 @@ export async function goToQuestion(id: number) {
   const game = getState().game;
   // On pioche la question depuis la roulotte principale peu importe les filtres. Si quelqu'un demande une question qui appartient pas à la catégorie voulue c'est SON problème :)
   const question = roulotte.find((q) => q.id === id)
-  
+
   if (!question) {
     showError('Impossible de trouver cette question !')
     return;
   }
+
   game.questions.push(question);
   game.pos += 1;
   setState({ game });

@@ -83,7 +83,7 @@ export async function createPublicWindow() {
 
   publicWindow.once("ready-to-show", () => {
     publicWindow.show();
-    emitPublic("texts", {
+    emitPublic("publicTextUpdated", {
       title: gameTitleMessage,
       waiting: waitingMessage,
     });
