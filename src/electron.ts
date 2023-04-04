@@ -10,7 +10,7 @@ let controllerWindow: Electron.BrowserWindow;
 let publicWindow: Electron.BrowserWindow;
 
 export function startElectron() {
-  /** On attend l'évènement ready d'Electron pour commencer à afficher des trucs */
+  // On attend l'évènement ready d'Electron pour commencer à afficher des trucs 
   app.on("ready", async () => {
     loadHandles();
     await initElectronWindow();
@@ -51,6 +51,7 @@ async function createControllerWindow() {
     `file://${resolve(getState().resourcePath, "frontend/admin/index.html")}`
   );
 
+  // Ceci permet d'attendre que Chromium soit prêt à afficher la page complète (il a tout chargé quoi) pour la montrer à l'écran, afin d'éviter que l'utilisateur voie la page se charger.
   controllerWindow.once("ready-to-show", () => {
     controllerWindow.show();
   });
@@ -100,10 +101,12 @@ export function showPublicWindow() {
   publicWindow.show();
 }
 
+// Envoyer un message à la fenêtre publique
 export function emitPublic(type: string, data: any) {
   if (publicWindow) publicWindow.webContents.send(type, data);
 }
 
+// Envoyer un message à la fenêtre contrôleur
 export function emitController(type: string, data: any) {
   if (controllerWindow) controllerWindow.webContents.send(type, data);
 }
