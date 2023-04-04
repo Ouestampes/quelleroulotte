@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
-import { createPublicWindow, togglePublicFullscreen } from "./electron";
-import { changeTexts, lastQuestion, nextQuestion, pauseGame, prevQuestion, revealCurrentAnswer, startOrUnpause, stopGame } from "./roulotte";
+import { createPublicWindow, emitPublic, togglePublicFullscreen } from "./electron";
+import { lastQuestion, nextQuestion, pauseGame, prevQuestion, revealCurrentAnswer, startOrUnpause, stopGame } from "./roulotte";
 
 export function loadHandles() {
 	ipcMain.handle("roulotte:load", async () => {
@@ -19,7 +19,7 @@ export function loadHandles() {
 	ipcMain.handle("roulotte:stop", stopGame);
 	ipcMain.handle("roulotte:fullscreen", togglePublicFullscreen);
 	ipcMain.handle("roulotte:texts", (_, title, waiting) =>
-	  changeTexts(title, waiting)
+		emitPublic("texts", { title, waiting })
 	);
   }
   

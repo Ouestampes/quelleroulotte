@@ -123,10 +123,6 @@ export function unpauseGame() {
   updateControls("started");
 }
 
-export function changeTexts(title: string, waiting: string) {
-  emitPublic("texts", { title, waiting });
-}
-
 export function nextQuestion() {
   const game = getState().game;
   let id = null;
