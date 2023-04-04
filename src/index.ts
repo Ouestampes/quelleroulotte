@@ -3,9 +3,8 @@ import { dirname, resolve } from "path";
 import { createInterface } from "readline";
 import sourceMapSupport from "source-map-support";
 
-import { showLoadError, startElectron } from "./electron";
-import { loadRoulotteFromGsheet } from "./gsheet";
-import { loadRoulotteFromFile } from "./roulotte";
+import { startElectron } from "./electron";
+import { loadRoulotte } from "./roulotte";
 import { setState } from "./util/state";
 
 // Utile pour récupérer les vraies lignes d'erreur en cas de plantage
@@ -77,14 +76,7 @@ setState({
 
 async function main() {
   startElectron();
-  try {
-    await loadRoulotteFromGsheet();
-  } catch (err) {
-    console.error(err);
-    // Non-fatal, on va charger le fichier depuis le fichier
-    await showLoadError();
-  }
-  await loadRoulotteFromFile();
+  loadRoulotte();
 }
 
 main().catch((err) => console.log(err));

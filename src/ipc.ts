@@ -1,16 +1,10 @@
 import { ipcMain } from "electron";
-import { createPublicWindow, showLoadError, togglePublicFullscreen } from "./electron";
-import { loadRoulotteFromGsheet } from "./gsheet";
+import { createPublicWindow, togglePublicFullscreen } from "./electron";
 import { changeTexts, lastQuestion, nextQuestion, pauseGame, prevQuestion, revealCurrentAnswer, startOrUnpause, stopGame } from "./roulotte";
 
 export function loadHandles() {
-	ipcMain.handle("gsheet:download", async () => {
-	  try {
-		await loadRoulotteFromGsheet();
-	  } catch (err) {
-		// Non-fatal, on va charger le fichier depuis le fichier
-		await showLoadError();
-	  }
+	ipcMain.handle("roulotte:load", async () => {
+	  
 	});
   
 	ipcMain.handle("roulotte:previous", prevQuestion);

@@ -2,14 +2,25 @@ import fs from "fs/promises";
 import { sample } from "lodash";
 import { resolve } from "path";
 import Timeout = NodeJS.Timeout;
-import { emitController, emitPublic, updateMenu } from "./electron";
+import { emitController, emitPublic, showLoadError, updateMenu } from "./electron";
 import { Question } from "./types/roulotte";
 import { getState, setState } from "./util/state";
+import { saveRoulotteFromGsheet } from "./gsheet";
 
 let roulotte: Question[];
 let filteredRoulotte: Question[];
 let timer = 0;
 let timerInterval: Timeout;
+
+export async function loadRoulotte() {
+  try {
+		await saveRoulotteFromGsheet();
+	} catch (err) {
+		// Non-fatal, on va charger le fichier depuis le fichier
+		await showLoadError();
+	}
+  await loadRoulotteFromFile();
+}
 
 /** Chargement depuis le fichier JSON en cache puis  */
 export async function loadRoulotteFromFile() {
