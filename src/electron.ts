@@ -1,20 +1,9 @@
-import { app, BrowserWindow, dialog, ipcMain, Menu } from "electron";
+import { app, BrowserWindow, dialog, Menu } from "electron";
 import { resolve } from "path";
+import { loadHandles } from "./ipc";
 
-import { loadRoulotteFromGsheet } from "./gsheet";
 import { initMenu } from "./menu";
-import {
-  changeTexts,
-  DEFAULT_TITLE_MESSAGE,
-  DEFAULT_WAITING_MESSAGE,
-  lastQuestion,
-  nextQuestion,
-  pauseGame,
-  prevQuestion,
-  revealCurrentAnswer,
-  startOrUnpause,
-  stopGame,
-} from "./roulotte";
+import { gameTitleMessage, waitingMessage } from "./util/constants";
 import { getState } from "./util/state";
 
 let controllerWindow: Electron.BrowserWindow;
@@ -28,31 +17,6 @@ export function startElectron() {
   });
 }
 
-function loadHandles() {
-  ipcMain.handle("gsheet:download", async () => {
-    try {
-      await loadRoulotteFromGsheet();
-    } catch (err) {
-      // Non-fatal, on va charger le fichier depuis le fichier
-      await showLoadError();
-    }
-  });
-
-  ipcMain.handle("roulotte:previous", prevQuestion);
-  ipcMain.handle("roulotte:next", nextQuestion);
-  ipcMain.handle("roulotte:reveal", revealCurrentAnswer);
-  ipcMain.handle("roulotte:gotoLast", lastQuestion);
-  ipcMain.handle("roulotte:start", (_, categories: string[]) => {
-    createPublicWindow();
-    startOrUnpause(categories);
-  });
-  ipcMain.handle("roulotte:pause", pauseGame);
-  ipcMain.handle("roulotte:stop", stopGame);
-  ipcMain.handle("roulotte:fullscreen", togglePublicFullscreen);
-  ipcMain.handle("roulotte:texts", (_, title, waiting) =>
-    changeTexts(title, waiting)
-  );
-}
 
 async function initElectronWindow() {
   await createControllerWindow();
@@ -119,8 +83,8 @@ export async function createPublicWindow() {
   publicWindow.once("ready-to-show", () => {
     publicWindow.show();
     emitPublic("texts", {
-      title: DEFAULT_TITLE_MESSAGE,
-      waiting: DEFAULT_WAITING_MESSAGE,
+      title: gameTitleMessage,
+      waiting: waitingMessage,
     });
   });
   publicWindow.on("closed", () => {
