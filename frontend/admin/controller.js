@@ -84,7 +84,7 @@ stopButton.addEventListener('click', async () => {
 
 const dlAgainButton = document.getElementById('dl-again');
 dlAgainButton.addEventListener('click', async () => {
-  await ipcRenderer.invoke('gsheet:download');
+  await ipcRenderer.invoke('roulotte:load');
 });
 
 const gotoLastButton = document.getElementById('goto-last');
