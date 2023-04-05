@@ -2,14 +2,21 @@ html, body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    margin: 0;
+    font-size: xx-large;
+    font-family: Calibri, Arial, Helvetica, sans-serif;
 }
 
-body {
-    flex: 1;
-    justify-content: space-evenly;
-    margin: 0 5rem;
-    font-size: xx-large;
+.center {
     text-align: center;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: 0 7rem;
+    flex: 1;
 }
 
 .started {

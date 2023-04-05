@@ -66,6 +66,9 @@ export async function updateMenu() {
   process.platform === "darwin"
     ? Menu.setApplicationMenu(menu)
     : controllerWindow?.setMenu(menu);
+
+  // Enable for devTools on public window
+  // publicWindow.setMenu(menu);
 }
 
 async function createControllerWindow() {
