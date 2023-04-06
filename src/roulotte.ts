@@ -12,7 +12,7 @@ let timer = 0;
 let timerInterval: Timeout;
 
 export const DEFAULT_WAITING_MESSAGE = "On arrive !";
-export const DEFAULT_TITLE_MESSAGE = "La KerRoulette (nom provisoire)";
+export const DEFAULT_TITLE_MESSAGE = "La Roulette";
 
 /** Chargement depuis le fichier JSON en cache puis  */
 export async function loadRoulotteFromFile() {

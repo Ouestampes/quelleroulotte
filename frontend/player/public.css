@@ -19,6 +19,14 @@ html, body {
     flex: 1;
 }
 
+.game h1 {
+    height: 50%;
+}
+
+p {
+    margin: 0;
+}
+
 .started {
     display: none;
 }

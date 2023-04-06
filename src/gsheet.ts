@@ -25,7 +25,10 @@ export async function loadRoulotteFromGsheet() {
         id: +row._rawData[0],
         category: row._rawData[1],
         theme: row._rawData[2],
-        question: markdown(row._rawData[3], { useWrapper: false }),
+        question: markdown(row._rawData[3], { useWrapper: false }).replace(
+          / (\?|!|:)/,
+          "&nbsp;$1"
+        ),
         answer: markdown(row._rawData[4], { useWrapper: false }),
       });
     }
