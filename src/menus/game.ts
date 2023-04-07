@@ -32,7 +32,7 @@ const builder: MenuItemBuilderFunction = () => {
       { label: "Question &Précédente", click: () => prevQuestion() },
       { label: "D&ernière Question", click: () => lastQuestion() },
       {
-        label: "Rê&veler Réponse au Public",
+        label: "Ré&véler la réponse au Public",
         click: () => revealCurrentAnswer(),
       },
     ],

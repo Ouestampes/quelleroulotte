@@ -1,5 +1,4 @@
 import fs from "fs/promises";
-import { sample } from "lodash";
 import { resolve } from "path";
 import Timeout = NodeJS.Timeout;
 import { emitController, emitPublic, updateMenu } from "./electron";
@@ -31,7 +30,8 @@ export async function loadRoulotteFromFile() {
   ]);
 }
 
-function updateControls(status: string) {
+function updateControls(status: "stopped" | "started" | "paused") {
+  setState({ game: { status } });
   updateMenu();
   emitController("status", status);
   emitPublic("status", status);
@@ -45,7 +45,6 @@ export function sendQuestionsLoaded(length: number, categories: string[]) {
 export function startGame(categories: string[]) {
   setState({
     game: {
-      status: "started",
       questions: [],
       pos: -1,
       categories,
@@ -75,7 +74,6 @@ export function stopGame() {
   pauseGame();
   setState({
     game: {
-      status: "stopped",
       questions: [],
       pos: -1,
       categories: [],
@@ -95,11 +93,6 @@ export function stopGame() {
 export function pauseGame() {
   clearInterval(timerInterval);
   timerInterval = null;
-  setState({
-    game: {
-      status: "paused",
-    },
-  });
   updateControls("paused");
 }
 
@@ -134,7 +127,8 @@ export function nextQuestion() {
   if (game.pos === game.questions.length - 1) {
     let counter = 1;
     while (id === null) {
-      const randomQuestion = sample(filteredRoulotte);
+      const randomQuestion =
+        filteredRoulotte[Math.floor(Math.random() * filteredRoulotte.length)];
       const alreadyUsedQuestions = game.questions.map((q) => q.id);
       if (!alreadyUsedQuestions.includes(randomQuestion.id)) {
         id = randomQuestion.id;
