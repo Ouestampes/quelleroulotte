@@ -81,9 +81,8 @@
     ]
   },
   "prettier": {
-    "endOfLine": "auto",
+  "endOfLine": "auto",
 	"singleQuote": true,
-	"useTabs": true,
 	"arrowParens": "avoid"
   }
 }

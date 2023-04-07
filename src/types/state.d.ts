@@ -1,4 +1,4 @@
-import { Game } from "./roulotte";
+import { Game } from './roulotte';
 
 export interface State {
   appPath?: string;

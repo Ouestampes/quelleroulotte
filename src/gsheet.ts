@@ -1,16 +1,16 @@
-import fs from "fs/promises";
-import { GoogleSpreadsheet } from "google-spreadsheet";
-import { markdown } from "markdown-pro";
-import { resolve } from "path";
+import fs from 'fs/promises';
+import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { markdown } from 'markdown-pro';
+import { resolve } from 'path';
 
-import { sendQuestionsLoaded } from "./roulotte";
-import { Question } from "./types/roulotte";
-import { getState } from "./util/state";
+import { sendQuestionsLoaded } from './roulotte';
+import { Question } from './types/roulotte';
+import { getState } from './util/state';
 
 async function loadJsonFromPath(path: string) {
   const credsFile = await fs.readFile(
     resolve(getState().dataPath, path),
-    "utf-8"
+    'utf-8'
   );
   return JSON.parse(credsFile);
 }
@@ -19,9 +19,9 @@ export async function loadRoulotteFromGsheet() {
   let creds = null;
 
   try {
-    creds = await loadJsonFromPath("creds.json");
+    creds = await loadJsonFromPath('creds.json');
   } catch (e) {
-    creds = await loadJsonFromPath("resources/creds.json");
+    creds = await loadJsonFromPath('resources/creds.json');
   }
 
   const doc = new GoogleSpreadsheet(creds.sheet);
@@ -38,18 +38,18 @@ export async function loadRoulotteFromGsheet() {
         theme: row._rawData[2],
         question: markdown(row._rawData[3], { useWrapper: false }).replace(
           / (\?|!|:)/,
-          "&nbsp;$1"
+          '&nbsp;$1'
         ),
         answer: markdown(row._rawData[4], { useWrapper: false }),
       });
     }
   }
   await fs.writeFile(
-    resolve(getState().dataPath, "roulotte.json"),
+    resolve(getState().dataPath, 'roulotte.json'),
     JSON.stringify(roulotte, null, 2),
-    "utf-8"
+    'utf-8'
   );
   sendQuestionsLoaded(roulotte.length, [
-    ...new Set(roulotte.map((question) => question.category)),
+    ...new Set(roulotte.map(question => question.category)),
   ]);
 }

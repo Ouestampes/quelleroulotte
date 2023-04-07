@@ -1,16 +1,16 @@
-import { app } from "electron";
+import { app } from 'electron';
 
-import { DEFAULT_TITLE_MESSAGE } from "../roulotte";
-import { MenuItemBuilderFunction } from "../types/electron";
+import { DEFAULT_TITLE_MESSAGE } from '../roulotte';
+import { MenuItemBuilderFunction } from '../types/electron';
 
-const builder: MenuItemBuilderFunction = (options) => {
+const builder: MenuItemBuilderFunction = options => {
   const { isMac } = options;
   return {
-    label: isMac ? DEFAULT_TITLE_MESSAGE : "&Fichier",
+    label: isMac ? DEFAULT_TITLE_MESSAGE : '&Fichier',
     submenu: [
       {
-        label: "&Quitter",
-        accelerator: "CmdOrCtrl+Q",
+        label: '&Quitter',
+        accelerator: 'CmdOrCtrl+Q',
         click: () => {
           app.quit();
         },

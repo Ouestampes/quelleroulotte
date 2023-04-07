@@ -1,13 +1,13 @@
-import { createPublicWindow } from "../electron";
-import { MenuItemBuilderFunction } from "../types/electron";
+import { createPublicWindow } from '../electron';
+import { MenuItemBuilderFunction } from '../types/electron';
 
 const builder: MenuItemBuilderFunction = () => {
   return {
-    label: "&Fenêtre",
+    label: '&Fenêtre',
     submenu: [
-      { label: "&Minimiser", role: "minimize" },
+      { label: '&Minimiser', role: 'minimize' },
       {
-        label: "&Afficher la fenêtre publique",
+        label: '&Afficher la fenêtre publique',
         click: () => {
           createPublicWindow();
         },

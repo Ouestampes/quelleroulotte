@@ -1,4 +1,4 @@
-import { MenuItem, MenuItemConstructorOptions } from "electron";
+import { MenuItem, MenuItemConstructorOptions } from 'electron';
 
 export interface MenuItemBuilderOptions {
   isMac: boolean;

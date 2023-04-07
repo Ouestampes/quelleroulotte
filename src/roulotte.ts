@@ -1,21 +1,21 @@
-import fs from "fs/promises";
-import { resolve } from "path";
+import fs from 'fs/promises';
+import { resolve } from 'path';
 import Timeout = NodeJS.Timeout;
-import { emitController, emitPublic, updateMenu } from "./electron";
-import { Question } from "./types/roulotte";
-import { getState, setState } from "./util/state";
+import { emitController, emitPublic, updateMenu } from './electron';
+import { Question } from './types/roulotte';
+import { getState, setState } from './util/state';
 
 let roulotte: Question[];
 let filteredRoulotte: Question[];
 let timer = 0;
 let timerInterval: Timeout;
 
-export const DEFAULT_WAITING_MESSAGE = "On arrive !";
-export const DEFAULT_TITLE_MESSAGE = "La Roulette";
+export const DEFAULT_WAITING_MESSAGE = 'On arrive !';
+export const DEFAULT_TITLE_MESSAGE = 'La Roulette';
 
 /** Chargement depuis le fichier JSON en cache puis  */
 export async function loadRoulotteFromFile() {
-  const roulotteFile = resolve(getState().dataPath, "roulotte.json");
+  const roulotteFile = resolve(getState().dataPath, 'roulotte.json');
   // On teste si le fichier existe et on récupère sa date de MAJ pour l'écrire dans le state
   try {
     const { birthtime } = await fs.stat(roulotteFile);
@@ -23,22 +23,22 @@ export async function loadRoulotteFromFile() {
   } catch (err) {
     // Le fichier n'existe probablement pas, c'est pas grave pour le moment, la roulotte restera vide.
   }
-  const raw = await fs.readFile(roulotteFile, "utf-8");
+  const raw = await fs.readFile(roulotteFile, 'utf-8');
   roulotte = JSON.parse(raw);
   sendQuestionsLoaded(roulotte.length, [
-    ...new Set(roulotte.map((question) => question.category)),
+    ...new Set(roulotte.map(question => question.category)),
   ]);
 }
 
-function updateControls(status: "stopped" | "started" | "paused") {
+function updateControls(status: 'stopped' | 'started' | 'paused') {
   setState({ game: { status } });
   updateMenu();
-  emitController("status", status);
-  emitPublic("status", status);
+  emitController('status', status);
+  emitPublic('status', status);
 }
 
 export function sendQuestionsLoaded(length: number, categories: string[]) {
-  emitController("questionsLoaded", { length, categories });
+  emitController('questionsLoaded', { length, categories });
 }
 
 /** Démarrer une partie */
@@ -53,7 +53,7 @@ export function startGame(categories: string[]) {
   });
   // Si une liste de catégorie est fournie on va préfiltrer nos questions
   if (categories.length > 0) {
-    filteredRoulotte = roulotte.filter((q) => categories.includes(q.category));
+    filteredRoulotte = roulotte.filter(q => categories.includes(q.category));
   } else {
     filteredRoulotte = [...roulotte];
   }
@@ -66,7 +66,7 @@ export function startGame(categories: string[]) {
 
 function timePasses() {
   timer += 1;
-  emitController("time", timer);
+  emitController('time', timer);
 }
 
 export function stopGame() {
@@ -81,29 +81,29 @@ export function stopGame() {
     },
   });
   filteredRoulotte = [];
-  updateControls("stopped");
+  updateControls('stopped');
   emitQuestion({
-    question: "",
-    category: "",
-    theme: "",
+    question: '',
+    category: '',
+    theme: '',
     id: 0,
-    answer: "",
+    answer: '',
   });
 }
 
 export function pauseGame() {
   clearInterval(timerInterval);
   timerInterval = null;
-  updateControls("paused");
+  updateControls('paused');
 }
 
 export function startOrUnpause(categories: string[] = []) {
   const game = getState().game;
   switch (game.status) {
-    case "stopped":
+    case 'stopped':
       startGame(categories);
       break;
-    case "paused":
+    case 'paused':
       unpauseGame();
       break;
     default:
@@ -113,11 +113,11 @@ export function startOrUnpause(categories: string[] = []) {
 
 export function unpauseGame() {
   timerInterval = setInterval(timePasses, 1000);
-  updateControls("started");
+  updateControls('started');
 }
 
 export function changeTexts(title: string, waiting: string) {
-  emitPublic("texts", { title, waiting });
+  emitPublic('texts', { title, waiting });
 }
 
 export function nextQuestion() {
@@ -130,7 +130,7 @@ export function nextQuestion() {
     while (id === null) {
       const randomQuestion =
         filteredRoulotte[Math.floor(Math.random() * filteredRoulotte.length)];
-      const alreadyUsedQuestions = game.questions.map((q) => q.id);
+      const alreadyUsedQuestions = game.questions.map(q => q.id);
       if (!alreadyUsedQuestions.includes(randomQuestion.id)) {
         id = randomQuestion.id;
       }
@@ -140,7 +140,7 @@ export function nextQuestion() {
         return null;
       }
     }
-    game.questions.push(filteredRoulotte.find((q) => q.id === id));
+    game.questions.push(filteredRoulotte.find(q => q.id === id));
     game.questionsAsked += 1;
   }
   game.pos += 1;
@@ -169,22 +169,22 @@ export function lastQuestion() {
 export async function reportQuestion() {
   const game = getState().game;
   const id = game.questions[game.pos].id;
-  const badFile = resolve(getState().dataPath, "badIDs.txt");
+  const badFile = resolve(getState().dataPath, 'badIDs.txt');
   let badQuestions = [];
   try {
-    const raw = await fs.readFile(badFile, "utf-8");
-    badQuestions = raw.split("\n");
+    const raw = await fs.readFile(badFile, 'utf-8');
+    badQuestions = raw.split('\n');
   } catch (err) {
     // Pas de problème si el fichier n'existe pas
   }
   badQuestions.push(id);
-  await fs.writeFile(badFile, badQuestions.join("\n"), "utf-8");
+  await fs.writeFile(badFile, badQuestions.join('\n'), 'utf-8');
 }
 
 export function goToQuestion(id: number) {
   const game = getState().game;
   // On pioche la question depuis la roulotte principale peu importe les filtres. Si quelqu'un demande une question qui appartient pas à la catégorie voulue c'est SON problème :)
-  game.questions.push(roulotte.find((q) => q.id === id));
+  game.questions.push(roulotte.find(q => q.id === id));
   game.pos += 1;
   setState({ game });
   emitQuestion(game.questions[game.pos]);
@@ -192,10 +192,10 @@ export function goToQuestion(id: number) {
 
 export function revealCurrentAnswer() {
   const game = getState().game;
-  emitPublic("answerUpdated", game.questions[game.pos].answer);
+  emitPublic('answerUpdated', game.questions[game.pos].answer);
 }
 
 function emitQuestion(question: Question) {
-  emitPublic("questionUpdated", question);
-  emitController("questionUpdated", question);
+  emitPublic('questionUpdated', question);
+  emitController('questionUpdated', question);
 }

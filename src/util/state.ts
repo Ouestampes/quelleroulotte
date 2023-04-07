@@ -1,10 +1,10 @@
-import { emitPublic } from "../electron";
-import { State } from "../types/state";
+import { emitPublic } from '../electron';
+import { State } from '../types/state';
 
 // Etat initial :
 let state: State = {
   game: {
-    status: "stopped",
+    status: 'stopped',
     questions: [],
   },
 };
@@ -15,7 +15,7 @@ export function getState() {
 }
 
 function merge(target: State, source: Partial<State>) {
-  if (typeof target !== "object" && typeof source !== "object") {
+  if (typeof target !== 'object' && typeof source !== 'object') {
     return source;
   }
 
@@ -26,8 +26,8 @@ function merge(target: State, source: Partial<State>) {
     if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
       target[key] = sourceValue;
     } else if (
-      typeof targetValue === "object" &&
-      typeof sourceValue === "object"
+      typeof targetValue === 'object' &&
+      typeof sourceValue === 'object'
     ) {
       target[key] = merge({ ...targetValue }, sourceValue);
     } else {
@@ -41,6 +41,6 @@ function merge(target: State, source: Partial<State>) {
 /** Set one or more settings in app state */
 export function setState(part: Partial<State>) {
   state = merge(state, part);
-  emitPublic("questionsAsked", state.game?.questionsAsked);
+  emitPublic('questionsAsked', state.game?.questionsAsked);
   return getState();
 }
