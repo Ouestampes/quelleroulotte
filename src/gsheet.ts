@@ -7,12 +7,23 @@ import { sendQuestionsLoaded } from "./roulotte";
 import { Question } from "./types/roulotte";
 import { getState } from "./util/state";
 
-export async function loadRoulotteFromGsheet() {
+async function loadJsonFromPath(path: string) {
   const credsFile = await fs.readFile(
-    resolve(getState().dataPath, "creds.json"),
+    resolve(getState().dataPath, path),
     "utf-8"
   );
-  const creds = JSON.parse(credsFile);
+  return JSON.parse(credsFile);
+}
+
+export async function loadRoulotteFromGsheet() {
+  let creds = null;
+
+  try {
+    creds = await loadJsonFromPath("creds.json");
+  } catch (e) {
+    creds = await loadJsonFromPath("resources/creds.json");
+  }
+
   const doc = new GoogleSpreadsheet(creds.sheet);
   await doc.useServiceAccountAuth(creds);
   await doc.loadInfo();

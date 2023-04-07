@@ -65,15 +65,11 @@
       "publisherName": "Ouestampes",
       "verifyUpdateCodeSignature": false
     },
-    "linux": {
-      "target": [
-        "AppImage"
-      ]
-    },
     "productName": "Quelle Roulotte?",
     "copyright": "© 2023 Ouestampes",
     "extraResources": [
-      "frontend/**"
+      "frontend/**",
+      "creds.json"
     ],
     "directories": {
       "output": "packages"
