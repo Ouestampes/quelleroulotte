@@ -35,6 +35,11 @@ ipcRenderer.on("questionUpdated", (_, data) => {
   answer.innerHTML = "";
 });
 
+ipcRenderer.on("questionsAsked", (_, data) => {
+  const questionsAsked = document.querySelector(".ip--questionsAsked");
+  questionsAsked.innerHTML = data;
+});
+
 ipcRenderer.on("answerUpdated", (_, data) => {
   const answer = document.querySelector(".ip--answer");
   answer.innerHTML = data;

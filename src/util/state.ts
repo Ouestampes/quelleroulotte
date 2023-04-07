@@ -1,3 +1,4 @@
+import { emitPublic } from "../electron";
 import { State } from "../types/state";
 
 // Etat initial :
@@ -40,6 +41,6 @@ function merge(target: State, source: Partial<State>) {
 /** Set one or more settings in app state */
 export function setState(part: Partial<State>) {
   state = merge(state, part);
-  // emit('stateUpdated', state);
+  emitPublic("questionsAsked", state.game?.questionsAsked);
   return getState();
 }

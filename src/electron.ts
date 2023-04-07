@@ -68,6 +68,7 @@ export async function updateMenu() {
     : controllerWindow?.setMenu(menu);
 
   // Enable for devTools on public window
+  // TODO: Make this configurable or with a global hotkey
   // publicWindow.setMenu(menu);
 }
 

@@ -11,4 +11,5 @@ export interface Game {
   questions?: Question[];
   pos?: number;
   categories?: string[];
+  questionsAsked?: number;
 }
