@@ -48,6 +48,7 @@ export function startGame(categories: string[]) {
       questions: [],
       pos: -1,
       categories,
+      questionsAsked: 0,
     },
   });
   // Si une liste de catégorie est fournie on va préfiltrer nos questions
@@ -140,6 +141,7 @@ export function nextQuestion() {
       }
     }
     game.questions.push(filteredRoulotte.find((q) => q.id === id));
+    game.questionsAsked += 1;
   }
   game.pos += 1;
   setState({ game });
