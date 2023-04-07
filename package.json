@@ -79,5 +79,8 @@
       "package.json",
       "!**/node_modules/**/*"
     ]
+  },
+  "prettier": {
+    "endOfLine": "auto"
   }
 }
