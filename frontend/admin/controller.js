@@ -23,13 +23,14 @@ ipcRenderer.on('questionsLoaded', (_, data) => {
   }
 });
 
-function selectAll(){  
-  const ele = document.getElementById('categories-radios');  
-  for (let i = 0 ; i < ele.length ; i += 1) {  
-    if (ele[i].type === 'checkbox')  
-      ele[i].checked = true;  
-  }  
-}  
+document
+  .getElementById('categories-selectall')
+  .addEventListener('click', () => {
+    const ele = document.getElementById('categories-radios');
+    for (let i = 0; i < ele.length; i += 1) {
+      if (ele[i].type === 'checkbox') ele[i].checked = true;
+    }
+  });
 
 ipcRenderer.on('questionUpdated', (_, data) => {
   const question = document.querySelector('.ip--question');
