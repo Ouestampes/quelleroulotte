@@ -1,6 +1,6 @@
 /* eslint-env browser */
 
-import { ipcRenderer } from 'electron';
+const { ipcRenderer } = require('electron');
 
 ipcRenderer.on('questionsLoaded', (_, data) => {
   const nbLoaded = document.querySelector('.ip--nbLoaded');
@@ -62,7 +62,7 @@ ipcRenderer.on('statusUpdated', (_, data) => {
   document
     .querySelectorAll('.started, .paused, .stopped')
     .forEach(
-      (e) => (e.style.display = e.classList.contains(data) ? 'flex' : 'none'),
+      e => (e.style.display = e.classList.contains(data) ? 'flex' : 'none'),
     );
 });
 

@@ -5,6 +5,7 @@ import { loadHandles } from "./ipc";
 import { initMenu } from "./menu";
 import { gameTitleMessage, waitingMessage } from "./util/constants";
 import { getState } from "./util/state";
+import { loadRoulotte } from "./roulotte";
 
 export let controllerWindow: Electron.BrowserWindow;
 export let publicWindow: Electron.BrowserWindow;
@@ -14,6 +15,7 @@ export function startElectron() {
   app.on("ready", async () => {
     loadHandles();
     await initElectronWindow();
+    await loadRoulotte();    
   });
 }
 
@@ -27,9 +29,13 @@ async function initElectronWindow() {
 export async function updateMenu() {
   const menu = Menu.buildFromTemplate(initMenu());
   // Setup de l'application sur la fenêtre du contrôleur sous Windows, sinon sur le bureau sous macOS
-  process.platform === "darwin"
+  process.platform === 'darwin'
     ? Menu.setApplicationMenu(menu)
     : controllerWindow?.setMenu(menu);
+
+  // Enable for devTools on public window
+  // TODO: Make this configurable or with a global hotkey
+  // publicWindow.setMenu(menu);
 }
 
 async function createControllerWindow() {
@@ -38,8 +44,8 @@ async function createControllerWindow() {
     width: 700,
     height: 500,
     show: false,
-    title: "Quelle Roulotte ? - Contrôleur",
-    icon: resolve(getState().resourcePath, "frontend/assets/icon.png"),
+    title: `${gameTitleMessage} - Contrôleur`,
+    icon: resolve(getState().resourcePath, 'frontend/assets/icon.png'),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -48,7 +54,7 @@ async function createControllerWindow() {
 
   controllerWindow.webContents.session.clearCache();
   controllerWindow?.loadURL(
-    `file://${resolve(getState().resourcePath, "frontend/admin/index.html")}`
+    `file://${resolve(getState().resourcePath, 'frontend/admin/index.html')}`
   );
 
   // Ceci permet d'attendre que Chromium soit prêt à afficher la page complète (il a tout chargé quoi) pour la montrer à l'écran, afin d'éviter que l'utilisateur voie la page se charger.
@@ -56,7 +62,7 @@ async function createControllerWindow() {
     controllerWindow.show();
   });
   // On ferme tout si la fenêtre contrôleur est fermée
-  controllerWindow.on("closed", () => {
+  controllerWindow.on('closed', () => {
     app.quit();
   });
 }
@@ -67,8 +73,8 @@ export async function createPublicWindow() {
     width: 1000,
     height: 700,
     show: false,
-    title: "Quelle Roulotte ? - Public",
-    icon: resolve(getState().resourcePath, "frontend/assets/icon.png"),
+    title: `${gameTitleMessage} - Public`,
+    icon: resolve(getState().resourcePath, 'frontend/assets/icon.png'),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -78,17 +84,17 @@ export async function createPublicWindow() {
   publicWindow.setMenu(null);
   publicWindow.webContents.session.clearCache();
   publicWindow?.loadURL(
-    `file://${resolve(getState().resourcePath, "frontend/player/index.html")}`
+    `file://${resolve(getState().resourcePath, 'frontend/player/index.html')}`
   );
 
-  publicWindow.once("ready-to-show", () => {
+  publicWindow.once('ready-to-show', () => {
     publicWindow.show();
     emitPublic("publicTextUpdated", {
       title: gameTitleMessage,
       waiting: waitingMessage,
     });
   });
-  publicWindow.on("closed", () => {
+  publicWindow.on('closed', () => {
     publicWindow = null;
   });
 }

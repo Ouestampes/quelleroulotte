@@ -1,11 +1,10 @@
-import fs from "fs/promises";
-import { sample } from "lodash";
-import { resolve } from "path";
+import fs from 'fs/promises';
+import { resolve } from 'path';
 import Timeout = NodeJS.Timeout;
-import { emitController, emitPublic, showError, updateMenu } from "./electron";
-import { Question } from "./types/roulotte";
-import { getState, setState } from "./util/state";
-import { saveRoulotteFromGsheet } from "./gsheet";
+import { emitController, emitPublic, showError, updateMenu } from './electron';
+import { Question } from './types/roulotte';
+import { getState, setState } from './util/state';
+import { saveRoulotteFromGsheet } from './gsheet';
 
 let roulotte: Question[];
 let filteredRoulotte: Question[];
@@ -18,14 +17,18 @@ export async function loadRoulotte() {
 		await saveRoulotteFromGsheet();
 	} catch (err) {
 		// Non-fatal, on va charger le fichier depuis le fichier
-		await showError('Impossible de lire le Gsheet. On va charger un roulotte.json local s\'il existe.\nPour lire depuis le Gsheet, assurez-vous d\'avoir le fichier "creds.json" et/ou d\'être connecté à Internet.');
+		showError('Impossible de lire le Gsheet. On va charger un roulotte.json local s\'il existe.\nPour lire depuis le Gsheet, assurez-vous d\'avoir le fichier "creds.json" et/ou d\'être connecté à Internet.');
 	}
-  await loadRoulotteFromFile();
+  roulotte = await loadRoulotteFromFile();
+  emitController("questionsLoaded", {
+    length: roulotte.length, 
+    categories: [...new Set(roulotte.map(question => question.category))]
+  });  
 }
 
 /** Chargement depuis le fichier JSON en cache puis  */
-export async function loadRoulotteFromFile() {
-  const roulotteFile = resolve(getState().dataPath, "roulotte.json");
+export async function loadRoulotteFromFile(): Promise<Question[]> {
+  const roulotteFile = resolve(getState().dataPath, 'roulotte.json');
   // On teste si le fichier existe et on récupère sa date de MAJ pour l'écrire dans le state
   try {
     const { birthtime } = await fs.stat(roulotteFile);
@@ -33,33 +36,30 @@ export async function loadRoulotteFromFile() {
   } catch (err) {
     // Le fichier n'existe probablement pas, c'est pas grave pour le moment, la roulotte restera vide.
   }
-  const raw = await fs.readFile(roulotteFile, "utf-8");
-  roulotte = JSON.parse(raw);
-  emitController("questionsLoaded", {
-    length: roulotte.length, 
-    categories: [...new Set(roulotte.map(question => question.category))]
-  });  
+  const raw = await fs.readFile(roulotteFile, 'utf-8');
+  return JSON.parse(raw);
 }
 
-function updateControls(status: string) {
+function updateControls(status: 'stopped' | 'started' | 'paused') {
+  setState({ game: { status } });
   updateMenu();
   emitController("statusUpdated", status);
-  emitPublic("statusUpdated", status);
+  emitPublic("statusUpdated", status);  
 }
 
 /** Démarrer une partie */
 export function startGame(categories: string[]) {
   setState({
     game: {
-      status: "started",
       questions: [],
       pos: -1,
       categories,
+      questionsAsked: 0,
     },
   });
   // Si une liste de catégorie est fournie on va préfiltrer nos questions
   if (categories.length > 0) {
-    filteredRoulotte = roulotte.filter((q) => categories.includes(q.category));
+    filteredRoulotte = roulotte.filter(q => categories.includes(q.category));
   } else {
     filteredRoulotte = [...roulotte];
   }
@@ -72,7 +72,7 @@ export function startGame(categories: string[]) {
 
 function timePasses() {
   timer += 1;
-  emitController("time", timer);
+  emitController('time', timer);
 }
 
 export function stopGame() {
@@ -81,32 +81,26 @@ export function stopGame() {
   pauseGame();
   setState({
     game: {
-      status: "stopped",
       questions: [],
       pos: -1,
       categories: [],
     },
   });
   filteredRoulotte = [];
-  updateControls("stopped");
+  updateControls('stopped');
   emitQuestion({
-    question: "",
-    category: "",
-    theme: "",
+    question: '',
+    category: '',
+    theme: '',
     id: 0,
-    answer: "",
+    answer: '',
   });
 }
 
 export function pauseGame() {
   clearInterval(timerInterval);
   timerInterval = null;
-  setState({
-    game: {
-      status: "paused",
-    },
-  });
-  updateControls("paused");
+  updateControls('paused');
 }
 
 export function startOrUnpause(categories: string[]) {
@@ -120,7 +114,7 @@ export function startOrUnpause(categories: string[]) {
 
 export function unpauseGame() {
   timerInterval = setInterval(timePasses, 1000);
-  updateControls("started");
+  updateControls('started');
 }
 
 export function nextQuestion() {
@@ -131,8 +125,9 @@ export function nextQuestion() {
   if (game.pos === game.questions.length - 1) {
     let counter = 1;
     while (id === null) {
-      const randomQuestion = sample(filteredRoulotte);
-      const alreadyUsedQuestions = game.questions.map((q) => q.id);
+      const randomQuestion =
+        filteredRoulotte[Math.floor(Math.random() * filteredRoulotte.length)];
+      const alreadyUsedQuestions = game.questions.map(q => q.id);
       if (!alreadyUsedQuestions.includes(randomQuestion.id)) {
         id = randomQuestion.id;
       }
@@ -142,7 +137,8 @@ export function nextQuestion() {
         return null;
       }
     }
-    game.questions.push(filteredRoulotte.find((q) => q.id === id));
+    game.questions.push(filteredRoulotte.find(q => q.id === id));
+    game.questionsAsked += 1;
   }
   game.pos += 1;
   setState({ game });
@@ -170,22 +166,22 @@ export function lastQuestion() {
 export async function reportQuestion() {
   const game = getState().game;
   const id = game.questions[game.pos].id;
-  const badFile = resolve(getState().dataPath, "badIDs.txt");
+  const badFile = resolve(getState().dataPath, 'badIDs.txt');
   let badQuestions = [];
   try {
-    const raw = await fs.readFile(badFile, "utf-8");
-    badQuestions = raw.split("\n");
+    const raw = await fs.readFile(badFile, 'utf-8');
+    badQuestions = raw.split('\n');
   } catch (err) {
     // Pas de problème si el fichier n'existe pas
   }
   badQuestions.push(id);
-  await fs.writeFile(badFile, badQuestions.join("\n"), "utf-8");
+  await fs.writeFile(badFile, badQuestions.join('\n'), 'utf-8');
 }
 
 export async function goToQuestion(id: number) {
   const game = getState().game;
   // On pioche la question depuis la roulotte principale peu importe les filtres. Si quelqu'un demande une question qui appartient pas à la catégorie voulue c'est SON problème :)
-  const question = roulotte.find((q) => q.id === id)
+  const question = roulotte.find(q => q.id === id)
 
   if (!question) {
     showError('Impossible de trouver cette question !')
@@ -200,10 +196,10 @@ export async function goToQuestion(id: number) {
 
 export function revealCurrentAnswer() {
   const game = getState().game;
-  emitPublic("answerUpdated", game.questions[game.pos].answer);
+  emitPublic('answerUpdated', game.questions[game.pos].answer);
 }
 
 function emitQuestion(question: Question) {
-  emitPublic("questionUpdated", question);
-  emitController("questionUpdated", question);
+  emitPublic('questionUpdated', question);
+  emitController('questionUpdated', question);
 }

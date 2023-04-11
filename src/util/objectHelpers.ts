@@ -2,12 +2,12 @@
 export function removeNulls<NObject>(obj: NObject): NObject {
   let obj2: any;
   if (obj instanceof Array) {
-    obj2 = obj.filter((el) => el !== null);
+    obj2 = obj.filter(el => el !== null);
   } else {
     obj2 = obj;
   }
   for (const k in obj2) {
-    if (typeof obj2[k] === "object") {
+    if (typeof obj2[k] === 'object') {
       obj2[k] = removeNulls(obj2[k]);
     }
   }
