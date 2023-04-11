@@ -14,19 +14,21 @@ let timerInterval: Timeout;
 // Chargement de la roulotte, d'abord en la récupérant depuis un gsheet puis en la lisant depuis un fichier
 export async function loadRoulotte() {
   try {
-		await saveRoulotteFromGsheet();
-	} catch (err) {
-		// Non-fatal, on va charger le fichier depuis le fichier
-		showError('Impossible de lire le Gsheet. On va charger un roulotte.json local s\'il existe.\nPour lire depuis le Gsheet, assurez-vous d\'avoir le fichier "creds.json" et/ou d\'être connecté à Internet.');
-	}
+    await saveRoulotteFromGsheet();
+  } catch (err) {
+    // Non-fatal, on va charger le fichier depuis le fichier
+    showError(
+      "Impossible de lire le Gsheet. On va charger un roulotte.json local s'il existe.\nPour lire depuis le Gsheet, assurez-vous d'avoir le fichier \"creds.json\" et/ou d'être connecté à Internet."
+    );
+  }
   roulotte = await loadRoulotteFromFile();
-  emitController("questionsLoaded", {
-    length: roulotte.length, 
-    categories: [...new Set(roulotte.map(question => question.category))]
-  });  
+  emitController('questionsLoaded', {
+    length: roulotte.length,
+    categories: [...new Set(roulotte.map(question => question.category))],
+  });
 }
 
-/** Chargement depuis le fichier JSON en cache puis  */
+/** Chargement depuis le fichier JSON en cache */
 export async function loadRoulotteFromFile(): Promise<Question[]> {
   const roulotteFile = resolve(getState().dataPath, 'roulotte.json');
   // On teste si le fichier existe et on récupère sa date de MAJ pour l'écrire dans le state
@@ -43,8 +45,8 @@ export async function loadRoulotteFromFile(): Promise<Question[]> {
 function updateControls(status: 'stopped' | 'started' | 'paused') {
   setState({ game: { status } });
   updateMenu();
-  emitController("statusUpdated", status);
-  emitPublic("statusUpdated", status);  
+  emitController('statusUpdated', status);
+  emitPublic('statusUpdated', status);
 }
 
 /** Démarrer une partie */
@@ -109,7 +111,7 @@ export function startOrUnpause(categories: string[]) {
     startGame(categories);
   } else if (game.status === 'paused') {
     unpauseGame();
-  }  
+  }
 }
 
 export function unpauseGame() {
@@ -181,10 +183,10 @@ export async function reportQuestion() {
 export async function goToQuestion(id: number) {
   const game = getState().game;
   // On pioche la question depuis la roulotte principale peu importe les filtres. Si quelqu'un demande une question qui appartient pas à la catégorie voulue c'est SON problème :)
-  const question = roulotte.find(q => q.id === id)
+  const question = roulotte.find(q => q.id === id);
 
   if (!question) {
-    showError('Impossible de trouver cette question !')
+    showError('Impossible de trouver cette question !');
     return;
   }
 
