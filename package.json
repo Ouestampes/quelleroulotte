@@ -47,9 +47,9 @@
     "eslint-plugin-security": "^1.7.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "execa": "^7.1.1",
-    "husky": "^8.0.3",    
+    "husky": "^8.0.3",
     "lint-staged": "^13.2.1",
-    "prettier": "^2.8.7",    
+    "prettier": "^2.8.7",
     "rimraf": "^4.4.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
@@ -81,6 +81,6 @@
     ]
   },
   "lint-staged": {
-    "!(src/lib|assets/guestAvatars)": "prettier --write --ignore-unknown"
+    "*": "prettier --write --ignore-unknown"
   }
 }
