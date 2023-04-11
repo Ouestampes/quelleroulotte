@@ -13,9 +13,11 @@ ipcRenderer.on('questionsLoaded', (_, data) => {
     radio.type = 'checkbox';
     radio.name = 'categories[]';
     radio.value = category;
+    radio.id = `radio-${category.toLowerCase()}`;
 
     const label = document.createElement('label');
     label.innerHTML = category;
+    label.setAttribute('for', `radio-${category.toLowerCase()}`);
 
     const br = document.createElement('br');
 

@@ -4,7 +4,7 @@ html, body {
     height: 100vh;
     margin: 0;
     font-size: xx-large;
-    font-family: Calibri, Arial, Helvetica, sans-serif;
+    font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
 }
 
 .center {
@@ -23,6 +23,10 @@ html, body {
     height: 50%;
 }
 
+.question {
+    font-weight: normal;
+}
+
 p {
     margin: 0;
 }
@@ -35,10 +39,15 @@ p {
     display: block;
 }
 
-.infos {
+.title {
     position: absolute;
-    bottom: 0;
-    left: 1rem;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.block-title {
+    border-bottom: solid 1px;
 }
 
 #logo {
