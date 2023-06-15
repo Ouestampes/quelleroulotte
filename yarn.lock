@@ -412,10 +412,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/google-spreadsheet@^3.3.1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@types/google-spreadsheet/-/google-spreadsheet-3.3.1.tgz#582d02155967d01a47b49887fa2f484fb14f10b5"
-  integrity sha512-nvwAEr+uKK/IQ0hfH3agtRX2RnKI5+D/pUnDpJ/+D8nSbrvvV+fgyA8lGjoAHIHcls19NTzkQBm1T7vbF5iy8A==
+"@types/google-spreadsheet@^3.3.2":
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/@types/google-spreadsheet/-/google-spreadsheet-3.3.2.tgz#7f1d92300be3a974472832ebab1d23af2e7c504a"
+  integrity sha512-uBwRhNwx5JPsmrV+XmD77dxL8vVdOY/Aba1kx/mxtR6jePLZIN06I1jjEXEFidAyLUz+JWCphsVk8CCJ2Kzy2w==
 
 "@types/http-cache-semantics@*":
   version "4.0.1"
