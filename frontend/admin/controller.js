@@ -1,6 +1,6 @@
 /* eslint-env browser */
 
-const ipcRenderer = require('electron').ipcRenderer;
+const { ipcRenderer } = require('electron');
 
 ipcRenderer.on('questionsLoaded', (_, data) => {
   const nbLoaded = document.querySelector('.ip--nbLoaded');
@@ -69,11 +69,11 @@ ipcRenderer.on('time', (_, data) => {
   timer.innerHTML = returnString;
 });
 
-ipcRenderer.on('status', (_, data) => {
+ipcRenderer.on('statusUpdated', (_, data) => {
   document
     .querySelectorAll('.started, .paused, .stopped')
     .forEach(
-      e => (e.style.display = e.classList.contains(data) ? 'flex' : 'none')
+      e => (e.style.display = e.classList.contains(data) ? 'flex' : 'none'),
     );
 });
 
@@ -95,7 +95,7 @@ stopButton.addEventListener('click', async () => {
 
 const dlAgainButton = document.getElementById('dl-again');
 dlAgainButton.addEventListener('click', async () => {
-  await ipcRenderer.invoke('gsheet:download');
+  await ipcRenderer.invoke('roulotte:load');
 });
 
 const gotoLastButton = document.getElementById('goto-last');
@@ -123,23 +123,23 @@ textsButton.addEventListener('click', async () => {
   await ipcRenderer.invoke(
     'roulotte:texts',
     document.getElementById('title').value,
-    document.getElementById('waiting').value
+    document.getElementById('waiting').value,
   );
 });
 
 const showCategories = document.getElementById('categories');
 showCategories.addEventListener(
   'click',
-  () => (document.getElementById('categories-modal').style.display = 'block')
+  () => (document.getElementById('categories-modal').style.display = 'block'),
 );
 
 const submitCategories = document.getElementById('categories-submit');
 submitCategories.addEventListener(
   'click',
-  () => (document.getElementById('categories-modal').style.display = 'none')
+  () => (document.getElementById('categories-modal').style.display = 'none'),
 );
 
-window.addEventListener('keydown', async e => {
+window.addEventListener('keydown', async (e) => {
   switch (e.key) {
     case 'ArrowLeft':
       await ipcRenderer.invoke('roulotte:previous');

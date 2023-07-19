@@ -3,10 +3,8 @@ import { dirname, resolve } from 'path';
 import { createInterface } from 'readline';
 import sourceMapSupport from 'source-map-support';
 
-import { showLoadError, startElectron } from './electron';
-import { loadRoulotteFromGsheet } from './gsheet';
-import { loadRoulotteFromFile } from './roulotte';
-import { setState } from './util/state';
+import { startElectron } from "./electron";
+import { setState } from "./util/state";
 
 // Utile pour récupérer les vraies lignes d'erreur en cas de plantage
 sourceMapSupport.install();
@@ -64,8 +62,7 @@ if (app.isPackaged) {
   resourcePath = appPath;
 } else {
   // Démarrage depuis le git du code source
-  appPath = app.getAppPath();
-  console.log(appPath);
+  appPath = app.getAppPath();  
   resourcePath = appPath;
 }
 
@@ -77,14 +74,6 @@ setState({
 
 async function main() {
   startElectron();
-  try {
-    await loadRoulotteFromGsheet();
-  } catch (err) {
-    console.error(err);
-    // Non-fatal, on va charger le fichier depuis le fichier
-    await showLoadError();
-  }
-  await loadRoulotteFromFile();
 }
 
 main().catch(err => console.log(err));

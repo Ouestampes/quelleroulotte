@@ -1,12 +1,12 @@
 import { app } from 'electron';
 
-import { DEFAULT_TITLE_MESSAGE } from '../roulotte';
 import { MenuItemBuilderFunction } from '../types/electron';
+import { gameTitleMessage } from '../util/constants';
 
 const builder: MenuItemBuilderFunction = options => {
   const { isMac } = options;
   return {
-    label: isMac ? DEFAULT_TITLE_MESSAGE : '&Fichier',
+    label: isMac ? gameTitleMessage : '&Fichier',
     submenu: [
       {
         label: '&Quitter',

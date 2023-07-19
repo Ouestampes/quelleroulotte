@@ -1,20 +1,35 @@
 import fs from 'fs/promises';
 import { resolve } from 'path';
 import Timeout = NodeJS.Timeout;
-import { emitController, emitPublic, updateMenu } from './electron';
+import { emitController, emitPublic, showError, updateMenu } from './electron';
 import { Question } from './types/roulotte';
 import { getState, setState } from './util/state';
+import { saveRoulotteFromGsheet } from './gsheet';
 
 let roulotte: Question[];
 let filteredRoulotte: Question[];
 let timer = 0;
 let timerInterval: Timeout;
 
-export const DEFAULT_WAITING_MESSAGE = 'On arrive !';
-export const DEFAULT_TITLE_MESSAGE = 'La Roulette';
+// Chargement de la roulotte, d'abord en la récupérant depuis un gsheet puis en la lisant depuis un fichier
+export async function loadRoulotte() {
+  try {
+    await saveRoulotteFromGsheet();
+  } catch (err) {
+    // Non-fatal, on va charger le fichier depuis le fichier
+    showError(
+      "Impossible de lire le Gsheet. On va charger un roulotte.json local s'il existe.\nPour lire depuis le Gsheet, assurez-vous d'avoir le fichier \"creds.json\" et/ou d'être connecté à Internet."
+    );
+  }
+  roulotte = await loadRoulotteFromFile();
+  emitController('questionsLoaded', {
+    length: roulotte.length,
+    categories: [...new Set(roulotte.map(question => question.category))],
+  });
+}
 
-/** Chargement depuis le fichier JSON en cache puis  */
-export async function loadRoulotteFromFile() {
+/** Chargement depuis le fichier JSON en cache */
+export async function loadRoulotteFromFile(): Promise<Question[]> {
   const roulotteFile = resolve(getState().dataPath, 'roulotte.json');
   // On teste si le fichier existe et on récupère sa date de MAJ pour l'écrire dans le state
   try {
@@ -24,21 +39,14 @@ export async function loadRoulotteFromFile() {
     // Le fichier n'existe probablement pas, c'est pas grave pour le moment, la roulotte restera vide.
   }
   const raw = await fs.readFile(roulotteFile, 'utf-8');
-  roulotte = JSON.parse(raw);
-  sendQuestionsLoaded(roulotte.length, [
-    ...new Set(roulotte.map(question => question.category)),
-  ]);
+  return JSON.parse(raw);
 }
 
 function updateControls(status: 'stopped' | 'started' | 'paused') {
   setState({ game: { status } });
   updateMenu();
-  emitController('status', status);
-  emitPublic('status', status);
-}
-
-export function sendQuestionsLoaded(length: number, categories: string[]) {
-  emitController('questionsLoaded', { length, categories });
+  emitController('statusUpdated', status);
+  emitPublic('statusUpdated', status);
 }
 
 /** Démarrer une partie */
@@ -97,27 +105,18 @@ export function pauseGame() {
   updateControls('paused');
 }
 
-export function startOrUnpause(categories: string[] = []) {
+export function startOrUnpause(categories: string[]) {
   const game = getState().game;
-  switch (game.status) {
-    case 'stopped':
-      startGame(categories);
-      break;
-    case 'paused':
-      unpauseGame();
-      break;
-    default:
-      break;
+  if (game.status === 'stopped') {
+    startGame(categories);
+  } else if (game.status === 'paused') {
+    unpauseGame();
   }
 }
 
 export function unpauseGame() {
   timerInterval = setInterval(timePasses, 1000);
   updateControls('started');
-}
-
-export function changeTexts(title: string, waiting: string) {
-  emitPublic('texts', { title, waiting });
 }
 
 export function nextQuestion() {
@@ -181,10 +180,17 @@ export async function reportQuestion() {
   await fs.writeFile(badFile, badQuestions.join('\n'), 'utf-8');
 }
 
-export function goToQuestion(id: number) {
+export async function goToQuestion(id: number) {
   const game = getState().game;
   // On pioche la question depuis la roulotte principale peu importe les filtres. Si quelqu'un demande une question qui appartient pas à la catégorie voulue c'est SON problème :)
-  game.questions.push(roulotte.find(q => q.id === id));
+  const question = roulotte.find(q => q.id === id);
+
+  if (!question) {
+    showError('Impossible de trouver cette question !');
+    return;
+  }
+
+  game.questions.push(question);
   game.pos += 1;
   setState({ game });
   emitQuestion(game.questions[game.pos]);

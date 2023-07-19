@@ -3,13 +3,12 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { markdown } from 'markdown-pro';
 import { resolve } from 'path';
 
-import { sendQuestionsLoaded } from './roulotte';
-import { Question } from './types/roulotte';
-import { getState } from './util/state';
+import { Question } from "./types/roulotte";
+import { getState } from "./util/state";
 
-async function loadJsonFromPath(path: string) {
+export async function saveRoulotteFromGsheet() {
   const credsFile = await fs.readFile(
-    resolve(getState().dataPath, path),
+    resolve(getState().dataPath, 'creds.json'),
     'utf-8'
   );
   return JSON.parse(credsFile);
@@ -17,13 +16,10 @@ async function loadJsonFromPath(path: string) {
 
 export async function loadRoulotteFromGsheet() {
   let creds = null;
-
-  try {
-    creds = await loadJsonFromPath('creds.json');
-  } catch (e) {
-    creds = await loadJsonFromPath('resources/creds.json');
-  }
-
+  const credsFile = resolve(getState().dataPath, 'creds.json');
+  const credsData = await fs.readFile(credsFile, 'utf-8');
+  creds = JSON.parse(credsData);
+  
   const doc = new GoogleSpreadsheet(creds.sheet);
   await doc.useServiceAccountAuth(creds);
   await doc.loadInfo();
@@ -48,8 +44,5 @@ export async function loadRoulotteFromGsheet() {
     resolve(getState().dataPath, 'roulotte.json'),
     JSON.stringify(roulotte, null, 2),
     'utf-8'
-  );
-  sendQuestionsLoaded(roulotte.length, [
-    ...new Set(roulotte.map(question => question.category)),
-  ]);
+  );  
 }

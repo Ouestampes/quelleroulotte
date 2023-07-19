@@ -1,19 +1,19 @@
 /* eslint-env browser */
 
-const ipcRenderer = require('electron').ipcRenderer;
+const { ipcRenderer } = require('electron');
 
-ipcRenderer.on('texts', (_, texts) => {
+ipcRenderer.on('publicTextUpdated', (_, texts) => {
   const ipTitle = document.querySelector('.ip--title');
   ipTitle.innerHTML = texts.title;
   const ipWaiting = document.querySelector('.ip--waiting');
   ipWaiting.innerHTML = texts.waiting;
 });
 
-ipcRenderer.on('status', (_, data) => {
+ipcRenderer.on('statusUpdated', (_, data) => {
   document
     .querySelectorAll('.started, .paused, .stopped')
     .forEach(
-      e => (e.style.display = e.classList.contains(data) ? 'block' : 'none')
+      e => (e.style.display = e.classList.contains(data) ? 'block' : 'none'),
     );
 });
 

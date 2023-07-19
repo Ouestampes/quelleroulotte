@@ -1,58 +1,24 @@
-import { app, BrowserWindow, dialog, ipcMain, Menu } from 'electron';
-import { resolve } from 'path';
+import { app, BrowserWindow, dialog, Menu } from "electron";
+import { resolve } from "path";
+import { loadHandles } from "./ipc";
 
-import { loadRoulotteFromGsheet } from './gsheet';
-import { initMenu } from './menu';
-import {
-  changeTexts,
-  DEFAULT_TITLE_MESSAGE,
-  DEFAULT_WAITING_MESSAGE,
-  lastQuestion,
-  nextQuestion,
-  pauseGame,
-  prevQuestion,
-  revealCurrentAnswer,
-  startOrUnpause,
-  stopGame,
-} from './roulotte';
-import { getState } from './util/state';
+import { initMenu } from "./menu";
+import { gameTitleMessage, waitingMessage } from "./util/constants";
+import { getState } from "./util/state";
+import { loadRoulotte } from "./roulotte";
 
-let controllerWindow: Electron.BrowserWindow;
-let publicWindow: Electron.BrowserWindow;
+export let controllerWindow: Electron.BrowserWindow;
+export let publicWindow: Electron.BrowserWindow;
 
 export function startElectron() {
-  /** On attend l'évènement ready d'Electron pour commencer à afficher des trucs */
-  app.on('ready', async () => {
+  // On attend l'évènement ready d'Electron pour commencer à afficher des trucs 
+  app.on("ready", async () => {
     loadHandles();
     await initElectronWindow();
+    await loadRoulotte();    
   });
 }
 
-function loadHandles() {
-  ipcMain.handle('gsheet:download', async () => {
-    try {
-      await loadRoulotteFromGsheet();
-    } catch (err) {
-      // Non-fatal, on va charger le fichier depuis le fichier
-      await showLoadError();
-    }
-  });
-
-  ipcMain.handle('roulotte:previous', prevQuestion);
-  ipcMain.handle('roulotte:next', nextQuestion);
-  ipcMain.handle('roulotte:reveal', revealCurrentAnswer);
-  ipcMain.handle('roulotte:gotoLast', lastQuestion);
-  ipcMain.handle('roulotte:start', (_, categories: string[]) => {
-    createPublicWindow();
-    startOrUnpause(categories);
-  });
-  ipcMain.handle('roulotte:pause', pauseGame);
-  ipcMain.handle('roulotte:stop', stopGame);
-  ipcMain.handle('roulotte:fullscreen', togglePublicFullscreen);
-  ipcMain.handle('roulotte:texts', (_, title, waiting) =>
-    changeTexts(title, waiting)
-  );
-}
 
 async function initElectronWindow() {
   await createControllerWindow();
@@ -78,7 +44,7 @@ async function createControllerWindow() {
     width: 700,
     height: 500,
     show: false,
-    title: `${DEFAULT_TITLE_MESSAGE} - Contrôleur`,
+    title: `${gameTitleMessage} - Contrôleur`,
     icon: resolve(getState().resourcePath, 'frontend/assets/icon.png'),
     webPreferences: {
       nodeIntegration: true,
@@ -91,7 +57,8 @@ async function createControllerWindow() {
     `file://${resolve(getState().resourcePath, 'frontend/admin/index.html')}`
   );
 
-  controllerWindow.once('ready-to-show', () => {
+  // Ceci permet d'attendre que Chromium soit prêt à afficher la page complète (il a tout chargé quoi) pour la montrer à l'écran, afin d'éviter que l'utilisateur voie la page se charger.
+  controllerWindow.once("ready-to-show", () => {
     controllerWindow.show();
   });
   // On ferme tout si la fenêtre contrôleur est fermée
@@ -106,7 +73,7 @@ export async function createPublicWindow() {
     width: 1000,
     height: 700,
     show: false,
-    title: `${DEFAULT_TITLE_MESSAGE} - Public`,
+    title: `${gameTitleMessage} - Public`,
     icon: resolve(getState().resourcePath, 'frontend/assets/icon.png'),
     webPreferences: {
       nodeIntegration: true,
@@ -122,9 +89,9 @@ export async function createPublicWindow() {
 
   publicWindow.once('ready-to-show', () => {
     publicWindow.show();
-    emitPublic('texts', {
-      title: DEFAULT_TITLE_MESSAGE,
-      waiting: DEFAULT_WAITING_MESSAGE,
+    emitPublic("publicTextUpdated", {
+      title: gameTitleMessage,
+      waiting: waitingMessage,
     });
   });
   publicWindow.on('closed', () => {
@@ -140,18 +107,19 @@ export function showPublicWindow() {
   publicWindow.show();
 }
 
+// Envoyer un message à la fenêtre publique
 export function emitPublic(type: string, data: any) {
   if (publicWindow) publicWindow.webContents.send(type, data);
 }
 
+// Envoyer un message à la fenêtre contrôleur
 export function emitController(type: string, data: any) {
   if (controllerWindow) controllerWindow.webContents.send(type, data);
 }
 
-export async function showLoadError() {
+export async function showError(message: string) {
   await dialog.showMessageBox(controllerWindow, {
-    message:
-      "Impossible de lire le Gsheet. On va charger un roulotte.json local s'il existe.\nPour lire depuis le Gsheet, assurez-vous d'avoir le fichier \"creds.json\" et/ou d'être connecté à Internet.",
-    type: 'error',
+    message,
+    type: "error",
   });
 }
