@@ -36,7 +36,7 @@ let edited = true;
       minify: false,
     });
     console.log(
-      'Electron watch, close the app to rerun after edits, close without edits to quit'
+      'Electron watch, close the app to rerun after edits, close without edits to quit',
     );
     while (edited) {
       edited = false;

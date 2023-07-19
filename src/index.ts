@@ -3,8 +3,8 @@ import { dirname, resolve } from 'path';
 import { createInterface } from 'readline';
 import sourceMapSupport from 'source-map-support';
 
-import { startElectron } from "./electron";
-import { setState } from "./util/state";
+import { startElectron } from './electron';
+import { setState } from './util/state';
 
 // Utile pour récupérer les vraies lignes d'erreur en cas de plantage
 sourceMapSupport.install();

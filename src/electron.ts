@@ -1,24 +1,23 @@
-import { app, BrowserWindow, dialog, Menu } from "electron";
-import { resolve } from "path";
-import { loadHandles } from "./ipc";
+import { app, BrowserWindow, dialog, Menu } from 'electron';
+import { resolve } from 'path';
 
-import { initMenu } from "./menu";
-import { gameTitleMessage, waitingMessage } from "./util/constants";
-import { getState } from "./util/state";
-import { loadRoulotte } from "./roulotte";
+import { loadHandles } from './ipc';
+import { initMenu } from './menu';
+import { loadRoulotte } from './roulotte';
+import { gameTitleMessage, waitingMessage } from './util/constants';
+import { getState } from './util/state';
 
 export let controllerWindow: Electron.BrowserWindow;
 export let publicWindow: Electron.BrowserWindow;
 
 export function startElectron() {
-  // On attend l'évènement ready d'Electron pour commencer à afficher des trucs 
-  app.on("ready", async () => {
+  // On attend l'évènement ready d'Electron pour commencer à afficher des trucs
+  app.on('ready', async () => {
     loadHandles();
     await initElectronWindow();
-    await loadRoulotte();    
+    await loadRoulotte();
   });
 }
-
 
 async function initElectronWindow() {
   await createControllerWindow();
@@ -54,11 +53,11 @@ async function createControllerWindow() {
 
   controllerWindow.webContents.session.clearCache();
   controllerWindow?.loadURL(
-    `file://${resolve(getState().resourcePath, 'frontend/admin/index.html')}`
+    `file://${resolve(getState().resourcePath, 'frontend/admin/index.html')}`,
   );
 
   // Ceci permet d'attendre que Chromium soit prêt à afficher la page complète (il a tout chargé quoi) pour la montrer à l'écran, afin d'éviter que l'utilisateur voie la page se charger.
-  controllerWindow.once("ready-to-show", () => {
+  controllerWindow.once('ready-to-show', () => {
     controllerWindow.show();
   });
   // On ferme tout si la fenêtre contrôleur est fermée
@@ -84,12 +83,12 @@ export async function createPublicWindow() {
   publicWindow.setMenu(null);
   publicWindow.webContents.session.clearCache();
   publicWindow?.loadURL(
-    `file://${resolve(getState().resourcePath, 'frontend/player/index.html')}`
+    `file://${resolve(getState().resourcePath, 'frontend/player/index.html')}`,
   );
 
   publicWindow.once('ready-to-show', () => {
     publicWindow.show();
-    emitPublic("publicTextUpdated", {
+    emitPublic('publicTextUpdated', {
       title: gameTitleMessage,
       waiting: waitingMessage,
     });
@@ -120,6 +119,6 @@ export function emitController(type: string, data: any) {
 export async function showError(message: string) {
   await dialog.showMessageBox(controllerWindow, {
     message,
-    type: "error",
+    type: 'error',
   });
 }

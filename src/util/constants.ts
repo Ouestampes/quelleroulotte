@@ -1,2 +1,2 @@
-export const waitingMessage = "On arrive !";
-export const gameTitleMessage = "La KerRoulette (nom provisoire)";
+export const waitingMessage = 'On arrive !';
+export const gameTitleMessage = 'La KerRoulette (nom provisoire)';

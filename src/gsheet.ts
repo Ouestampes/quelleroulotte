@@ -3,13 +3,13 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { markdown } from 'markdown-pro';
 import { resolve } from 'path';
 
-import { Question } from "./types/roulotte";
-import { getState } from "./util/state";
+import { Question } from './types/roulotte';
+import { getState } from './util/state';
 
 export async function saveRoulotteFromGsheet() {
   const credsFile = await fs.readFile(
     resolve(getState().dataPath, 'creds.json'),
-    'utf-8'
+    'utf-8',
   );
   return JSON.parse(credsFile);
 }
@@ -34,7 +34,7 @@ export async function loadRoulotteFromGsheet() {
         theme: row._rawData[2],
         question: markdown(row._rawData[3], { useWrapper: false }).replace(
           / (\?|!|:)/,
-          '&nbsp;$1'
+          '&nbsp;$1',
         ),
         answer: markdown(row._rawData[4], { useWrapper: false }),
       });
@@ -43,6 +43,6 @@ export async function loadRoulotteFromGsheet() {
   await fs.writeFile(
     resolve(getState().dataPath, 'roulotte.json'),
     JSON.stringify(roulotte, null, 2),
-    'utf-8'
+    'utf-8',
   );  
 }

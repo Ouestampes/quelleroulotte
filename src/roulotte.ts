@@ -2,9 +2,9 @@ import fs from 'fs/promises';
 import { resolve } from 'path';
 import Timeout = NodeJS.Timeout;
 import { emitController, emitPublic, showError, updateMenu } from './electron';
+import { saveRoulotteFromGsheet } from './gsheet';
 import { Question } from './types/roulotte';
 import { getState, setState } from './util/state';
-import { saveRoulotteFromGsheet } from './gsheet';
 
 let roulotte: Question[];
 let filteredRoulotte: Question[];
@@ -18,7 +18,7 @@ export async function loadRoulotte() {
   } catch (err) {
     // Non-fatal, on va charger le fichier depuis le fichier
     showError(
-      "Impossible de lire le Gsheet. On va charger un roulotte.json local s'il existe.\nPour lire depuis le Gsheet, assurez-vous d'avoir le fichier \"creds.json\" et/ou d'être connecté à Internet."
+      "Impossible de lire le Gsheet. On va charger un roulotte.json local s'il existe.\nPour lire depuis le Gsheet, assurez-vous d'avoir le fichier \"creds.json\" et/ou d'être connecté à Internet.",
     );
   }
   roulotte = await loadRoulotteFromFile();

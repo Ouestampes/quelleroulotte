@@ -4,13 +4,15 @@
 	},
 	"env": {
 		"es2020": true,
-		"browser": true
+		"node": true
 	},
-	"plugins": ["security", "simple-import-sort"],
+	"plugins": ["@typescript-eslint", "security", "simple-import-sort"],
 	"extends": [
 		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
 		"plugin:security/recommended",
-		"airbnb-base"
+		"airbnb-base",
+		"airbnb-typescript/base"
 	],
 	"rules": {
 		"arrow-parens": 0,
@@ -79,5 +81,11 @@
 		"security/detect-non-literal-regexp": 0,
 		"security/detect-object-injection": 0,
 		"security/detect-possible-timing-attacks": 0
+	},
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"sourceType": "module",
+		"ecmaVersion": 2020,
+		"project": "./tsconfig.json"
 	}
 }
