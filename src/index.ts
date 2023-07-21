@@ -10,7 +10,8 @@ import { setState } from './util/state';
 sourceMapSupport.install();
 
 // On traîte les exceptions plutôt que de planter comme une merde
-process.on('uncaughtException', (exception: any) => {
+
+process.on('uncaughtException', (exception: unknown) => {
   console.log('Uncaught exception:', exception);
 });
 
@@ -42,9 +43,8 @@ if (process.platform === 'win32') {
 }
 
 // On définit les chemins dont on va avoir besoin selon si on est en développement ou dans l'app packagée d'Electron
-
 let appPath: string;
-// les ressources c'est l'endroit où il y a tous nos fichiers utilisés par l'app (genre les pages à afficher)
+// Les ressources c'est l'endroit où il y a tous nos fichiers utilisés par l'app (genre les pages à afficher)
 let resourcePath: string;
 
 // Tests pour savoir où on est
@@ -62,7 +62,7 @@ if (app.isPackaged) {
   resourcePath = appPath;
 } else {
   // Démarrage depuis le git du code source
-  appPath = app.getAppPath();  
+  appPath = app.getAppPath();
   resourcePath = appPath;
 }
 
@@ -72,8 +72,4 @@ setState({
   dataPath: appPath,
 });
 
-async function main() {
-  startElectron();
-}
-
-main().catch(err => console.log(err));
+startElectron().catch(err => console.log(err));

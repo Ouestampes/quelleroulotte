@@ -17,13 +17,21 @@ const builder: MenuItemBuilderFunction = () => ({
     {
       label: getState().game.status === 'stopped' ? '&Démarrer' : '&Arrêter',
       click: () => {
-        getState().game.status === 'stopped' ? startGame([]) : stopGame();
+        if (getState().game.status === 'stopped') {
+          startGame([]);
+        } else {
+          stopGame();
+        }
       },
     },
     {
       label: getState().game.status === 'paused' ? '&Reprendre' : '&Pause',
       click: () => {
-        getState().game.status === 'paused' ? unpauseGame() : pauseGame();
+        if (getState().game.status === 'paused') {
+          unpauseGame();
+        } else {
+          pauseGame();
+        }
       },
     },
     { type: 'separator' },

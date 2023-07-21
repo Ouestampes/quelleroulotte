@@ -1,6 +1,6 @@
 {
   "name": "quelleroulotte",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "type": "module",
   "main": "dist/index.cjs",
@@ -10,7 +10,8 @@
     "typecheck": "tsc",
     "electron:start": "electron .",
     "dist": "yarn build && electron-builder --dir",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prettier": "prettier --write frontend/ src/"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,7 @@
   },
   "homepage": "https://github.com/AxelTerizaki/quelleroulotte#readme",
   "dependencies": {
-    "google-spreadsheet": "^4.0.2",
+    "google-spreadsheet": "^3",
     "markdown-pro": "^1.1.6",
     "source-map-support": "^0.5.21"
   },
@@ -32,9 +33,9 @@
     "@types/source-map-support": "^0.5.6",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
-    "electron": "^25.3.0",
+    "electron": "^25.3.1",
     "electron-builder": "^24.4.0",
-    "esbuild": "^0.18.14",
+    "esbuild": "^0.18.15",
     "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",

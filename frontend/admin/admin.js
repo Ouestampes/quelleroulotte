@@ -139,7 +139,7 @@ submitCategories.addEventListener(
   () => (document.getElementById('categories-modal').style.display = 'none'),
 );
 
-window.addEventListener('keydown', async (e) => {
+window.addEventListener('keydown', async e => {
   switch (e.key) {
     case 'ArrowLeft':
       await ipcRenderer.invoke('roulotte:previous');

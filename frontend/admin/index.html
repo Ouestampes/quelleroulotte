@@ -1,73 +1,91 @@
 <html>
+  <head>
+    <link rel="stylesheet" href="admin.css" />
+  </head>
 
-<head>
-	<link rel="stylesheet" href="controller.css">
-</head>
+  <body>
+    <div id="categories-modal">
+      <div class="categories-front">
+        <p>
+          <b>Catégories du jeu</b>
+          <br />
+          <i>Si rien n'est coché, toutes les catégories seront sélectionnés</i>
+        </p>
+        <form id="categories-radios"></form>
+        <button id="categories-selectall">✓ Tout sélectionner</button>
+        <button id="categories-submit">❌ Fermer</button>
+      </div>
+    </div>
 
-<body>
-	<div id="categories-modal">
-		<div class="categories-front">
-			<p>
-				<b>Catégories du jeu</b>
-				<br />
-				<i>Si rien n'est coché, toutes les catégories seront sélectionnés</i>
-			</p>
-			<form id="categories-radios"></form>
-			<button id="categories-selectall">✓ Tout sélectionner</button>
-			<button id="categories-submit">❌ Fermer</button>
-		</div>
-	</div>
+    <div class="panel">
+      <div>N° : <span class="ip--id"></span></div>
+      <div>Catégorie : <span class="ip--category"></span></div>
+      <div>Thème : <span class="ip--theme"></span></div>
+      <br />
+      <div>
+        Question :
+        <div class="ip--question"></div>
+      </div>
+      <div>
+        Réponse :
+        <div class="ip--answer"></div>
+      </div>
+      <div>
+        <p>Temps écoulé : <span class="ip--timer"></span></p>
+      </div>
 
-	<div class="panel">
-		<div>N° : <span class="ip--id"></span></div>
-		<div>Catégorie : <span class="ip--category"></span></div>
-		<div>Thème : <span class="ip--theme"></span></div>
-		<br />
-		<div>
-			Question : <div class="ip--question"></div>
-		</div>
-		<div>
-			Réponse : <div class="ip--answer"></div>
-		</div>
-		<div>
-			<p>Temps écoulé : <span class="ip--timer"></span></p>
-		</div>
+      <div class="small-actions">
+        <button id="start" class="paused stopped">▶ Lancer le jeu</button>
+        <button id="categories" class="stopped">
+          ♨️ Sélectionner les catégories
+        </button>
+        <button id="pause" class="started">⏸ Mettre le jeu en pause</button>
+        <button id="goto-last" class="started">
+          ⏭ Aller à la dernière question
+        </button>
+        <button id="stop" class="started paused" style="display: none">
+          ⏹ Arrêter le jeu
+        </button>
+      </div>
+    </div>
 
-		<div class="small-actions">
-			<button id="start" class="paused stopped">▶ Lancer le jeu</button>
-			<button id="categories" class="stopped">♨️ Sélectionner les catégories</button>
-			<button id="pause" class="started">⏸ Mettre le jeu en pause</button>
-			<button id="goto-last" class="started">⏭ Aller à la dernière question</button>
-			<button id="stop" class="started paused" style="display:none">⏹ Arrêter le jeu</button>
-		</div>
-	</div>
+    <div class="form-actions stopped">
+      <div class="small-actions">
+        <label for="title">🎲 Titre du jeu</label>&nbsp;
+        <input type="text" name="title" id="title" />
+      </div>
+      <div class="small-actions">
+        <label for="waiting">💌 Message d'attente</label>&nbsp;
+        <input type="text" name="waiting" id="waiting" />
+      </div>
+      <div class="small-actions">
+        <button id="texts">✔️ Valider</button>
+      </div>
+    </div>
 
-	<div class="form-actions stopped">
-		<div class="small-actions">
-			<label for="title">🎲 Titre du jeu</label>&nbsp;
-			<input type="text" name="title" id="title">
-		</div>
-		<div class="small-actions">
-			<label for="waiting">💌 Message d'attente</label>&nbsp;
-			<input type="text" name="waiting" id="waiting">
-		</div>
-		<div class="small-actions">
-			<button id="texts">✔️ Valider</button>
-		</div>
-	</div>
+    <div class="large-actions started">
+      <button
+        id="previous"
+        title="Question précédente (Flèche de gauche du clavier)"
+      >
+        ⏪
+      </button>
+      <button
+        id="reveal"
+        title="Réveler la réponse au public (Flèche du haut ou du bas du clavier)"
+      >
+        ⏺
+      </button>
+      <button id="next" title="Question suivante (Flèche de droite du clavier)">
+        ⏩
+      </button>
+    </div>
 
-	<div class="large-actions started">
-		<button id="previous" title="Question précédente (Flèche de gauche du clavier)">⏪</button>
-		<button id="reveal" title="Réveler la réponse au public (Flèche du haut ou du bas du clavier)">⏺</button>
-		<button id="next" title="Question suivante (Flèche de droite du clavier)">⏩</button>
-	</div>
+    <footer>
+      Nombre de questions chargées : <span class="ip--nbLoaded"></span>
+      <button id="dl-again">🔄 Re-télécharger la liste des questions</button>
+    </footer>
 
-	<footer>
-		Nombre de questions chargées : <span class="ip--nbLoaded"></span>
-		<button id="dl-again">🔄 Re-télécharger la liste des questions</button>
-	</footer>
-
-	<script src="controller.js"></script>
-</body>
-
+    <script src="admin.js"></script>
+  </body>
 </html>

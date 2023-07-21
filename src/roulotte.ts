@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import { resolve } from 'path';
 import Timeout = NodeJS.Timeout;
 import { emitController, emitPublic, showError, updateMenu } from './electron';
-import { saveRoulotteFromGsheet } from './gsheet';
+import { loadRoulotteFromFile, loadRoulotteFromGsheet } from './gsheet';
 import { Question } from './types/roulotte';
 import { getState, setState } from './util/state';
 
@@ -14,7 +14,7 @@ let timerInterval: Timeout;
 // Chargement de la roulotte, d'abord en la récupérant depuis un gsheet puis en la lisant depuis un fichier
 export async function loadRoulotte() {
   try {
-    await saveRoulotteFromGsheet();
+    await loadRoulotteFromGsheet();
   } catch (err) {
     // Non-fatal, on va charger le fichier depuis le fichier
     showError(
@@ -26,20 +26,6 @@ export async function loadRoulotte() {
     length: roulotte.length,
     categories: [...new Set(roulotte.map(question => question.category))],
   });
-}
-
-/** Chargement depuis le fichier JSON en cache */
-export async function loadRoulotteFromFile(): Promise<Question[]> {
-  const roulotteFile = resolve(getState().dataPath, 'roulotte.json');
-  // On teste si le fichier existe et on récupère sa date de MAJ pour l'écrire dans le state
-  try {
-    const { birthtime } = await fs.stat(roulotteFile);
-    setState({ lastUpdate: new Date(birthtime) });
-  } catch (err) {
-    // Le fichier n'existe probablement pas, c'est pas grave pour le moment, la roulotte restera vide.
-  }
-  const raw = await fs.readFile(roulotteFile, 'utf-8');
-  return JSON.parse(raw);
 }
 
 function updateControls(status: 'stopped' | 'started' | 'paused') {

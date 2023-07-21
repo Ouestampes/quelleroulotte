@@ -4,13 +4,13 @@ import gameMenu from './menus/game';
 import viewMenu from './menus/view';
 import windowMenu from './menus/window';
 import { MenuItemBuilderOptions } from './types/electron';
-import { removeNulls } from './util/objectHelpers';
 
-export function initMenu() {
+export const initMenu = () => {
   const options: MenuItemBuilderOptions = {
     isMac: process.platform === 'darwin',
   };
-  return removeNulls([
+
+  return [
     // MAIN MENU / FILE MENU
     fileMenu(options),
     // VIEW MENU
@@ -21,5 +21,5 @@ export function initMenu() {
     gameMenu(options),
     // WINDOW MENU
     windowMenu(options),
-  ]);
-}
+  ];
+};
