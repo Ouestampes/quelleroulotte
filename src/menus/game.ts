@@ -1,13 +1,11 @@
-import {
-  lastQuestion,
-  nextQuestion,
-  pauseGame,
-  prevQuestion,
-  revealCurrentAnswer,
-  startGame,
-  stopGame,
-  unpauseGame,
-} from '../roulotte';
+import { lastQuestion } from '../handlers/gotoLast';
+import { nextQuestion } from '../handlers/next';
+import { pauseGame } from '../handlers/pause';
+import { prevQuestion } from '../handlers/previous';
+import { revealCurrentAnswer } from '../handlers/reveal';
+import { startGame } from '../handlers/start';
+import { stopGame } from '../handlers/stop';
+import { startTimer } from '../roulotte';
 import { MenuItemBuilderFunction } from '../types/electron';
 import { getState } from '../util/state';
 
@@ -18,7 +16,7 @@ const builder: MenuItemBuilderFunction = () => ({
       label: getState().game.status === 'stopped' ? '&Démarrer' : '&Arrêter',
       click: () => {
         if (getState().game.status === 'stopped') {
-          startGame([]);
+          startGame(null, []);
         } else {
           stopGame();
         }
@@ -28,7 +26,7 @@ const builder: MenuItemBuilderFunction = () => ({
       label: getState().game.status === 'paused' ? '&Reprendre' : '&Pause',
       click: () => {
         if (getState().game.status === 'paused') {
-          unpauseGame();
+          startTimer();
         } else {
           pauseGame();
         }

@@ -1,15 +1,16 @@
 import fs from 'fs/promises';
 import { resolve } from 'path';
 import Timeout = NodeJS.Timeout;
-import { emitController, emitPublic, showError, updateMenu } from './electron';
 import { loadRoulotteFromFile, loadRoulotteFromGsheet } from './gsheet';
 import { Question } from './types/roulotte';
 import { getState, setState } from './util/state';
+import { emitAdmin, showError, updateMenu } from './windows/admin';
+import { emitPublic } from './windows/public';
 
 let roulotte: Question[];
-let filteredRoulotte: Question[];
 let timer = 0;
 let timerInterval: Timeout;
+type Status = 'stopped' | 'started' | 'paused';
 
 // Chargement de la roulotte, d'abord en la récupérant depuis un gsheet puis en la lisant depuis un fichier
 export async function loadRoulotte() {
@@ -22,136 +23,49 @@ export async function loadRoulotte() {
     );
   }
   roulotte = await loadRoulotteFromFile();
-  emitController('questionsLoaded', {
+  emitAdmin('questionsLoaded', {
     length: roulotte.length,
     categories: [...new Set(roulotte.map(question => question.category))],
   });
 }
 
-function updateControls(status: 'stopped' | 'started' | 'paused') {
+export const getQuestions = (categories: string[] = []) =>
+  roulotte.filter(q => categories.includes(q.category));
+
+export const updateControls = (status: Status) => {
   setState({ game: { status } });
   updateMenu();
-  emitController('statusUpdated', status);
+  emitAdmin('statusUpdated', status);
   emitPublic('statusUpdated', status);
-}
+};
 
-/** Démarrer une partie */
-export function startGame(categories: string[]) {
-  setState({
-    game: {
-      questions: [],
-      pos: -1,
-      categories,
-      questionsAsked: 0,
-    },
-  });
-  // Si une liste de catégorie est fournie on va préfiltrer nos questions
-  if (categories.length > 0) {
-    filteredRoulotte = roulotte.filter(q => categories.includes(q.category));
-  } else {
-    filteredRoulotte = [...roulotte];
-  }
-  // On tire la première question
-  nextQuestion();
-  // On initialise le timer
-  timer = 0;
-  unpauseGame();
-}
-
-function timePasses() {
+const timePasses = () => {
   timer += 1;
-  emitController('time', timer);
-}
+  emitAdmin('time', timer);
+};
 
-export function stopGame() {
-  timer = 0;
-  // Le timer ne sera renvoyé qu'après un redémarrage du jeu
-  pauseGame();
-  setState({
-    game: {
-      questions: [],
-      pos: -1,
-      categories: [],
-    },
-  });
-  filteredRoulotte = [];
-  updateControls('stopped');
-  emitQuestion({
-    question: '',
-    category: '',
-    theme: '',
-    id: 0,
-    answer: '',
-  });
-}
-
-export function pauseGame() {
+export const pauseTimer = () => {
   clearInterval(timerInterval);
   timerInterval = null;
   updateControls('paused');
-}
+};
 
-export function startOrUnpause(categories: string[]) {
-  const game = getState().game;
-  if (game.status === 'stopped') {
-    startGame(categories);
-  } else if (game.status === 'paused') {
-    unpauseGame();
-  }
-}
-
-export function unpauseGame() {
+export const startTimer = () => {
   timerInterval = setInterval(timePasses, 1000);
   updateControls('started');
-}
+};
 
-export function nextQuestion() {
-  const game = getState().game;
-  let id = null;
-  // Si on est pas à la toute dernière position on repioche une question
-  // Sinon on augmente notre position et on reprend la question.
-  if (game.pos === game.questions.length - 1) {
-    let counter = 1;
-    while (id === null) {
-      const randomQuestion =
-        filteredRoulotte[Math.floor(Math.random() * filteredRoulotte.length)];
-      const alreadyUsedQuestions = game.questions.map(q => q.id);
-      if (!alreadyUsedQuestions.includes(randomQuestion.id)) {
-        id = randomQuestion.id;
-      }
-      counter += 1;
-      // Si c'est le cas on a plus de questions possibles
-      if (counter >= filteredRoulotte.length) {
-        return null;
-      }
-    }
-    game.questions.push(filteredRoulotte.find(q => q.id === id));
-    game.questionsAsked += 1;
-  }
-  game.pos += 1;
-  setState({ game });
-  emitQuestion(game.questions[game.pos]);
-}
+export const resetTimer = () => {
+  pauseTimer();
+  timer = 0;
+};
 
-export function prevQuestion() {
-  const game = getState().game;
-  if (game.pos <= 0) {
-    return null;
-  }
-  game.pos -= 1;
-  setState({ game });
-  emitQuestion(game.questions[game.pos]);
-}
+export const emitQuestion = (question: Question) => {
+  emitAdmin('questionUpdated', question);
+  emitPublic('questionUpdated', question);
+};
 
-export function lastQuestion() {
-  const game = getState().game;
-  // La position démarre à 0
-  game.pos = game.questions.length - 1;
-  setState({ game });
-  emitQuestion(game.questions[game.pos]);
-}
-
-export async function reportQuestion() {
+export const reportQuestion = async () => {
   const game = getState().game;
   const id = game.questions[game.pos].id;
   const badFile = resolve(getState().dataPath, 'badIDs.txt');
@@ -164,9 +78,9 @@ export async function reportQuestion() {
   }
   badQuestions.push(id);
   await fs.writeFile(badFile, badQuestions.join('\n'), 'utf-8');
-}
+};
 
-export async function goToQuestion(id: number) {
+export const goToQuestion = async (id: number) => {
   const game = getState().game;
   // On pioche la question depuis la roulotte principale peu importe les filtres. Si quelqu'un demande une question qui appartient pas à la catégorie voulue c'est SON problème :)
   const question = roulotte.find(q => q.id === id);
@@ -180,14 +94,4 @@ export async function goToQuestion(id: number) {
   game.pos += 1;
   setState({ game });
   emitQuestion(game.questions[game.pos]);
-}
-
-export function revealCurrentAnswer() {
-  const game = getState().game;
-  emitPublic('answerUpdated', game.questions[game.pos].answer);
-}
-
-function emitQuestion(question: Question) {
-  emitPublic('questionUpdated', question);
-  emitController('questionUpdated', question);
-}
+};
