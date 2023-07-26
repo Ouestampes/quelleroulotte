@@ -27,8 +27,11 @@ export async function loadRoulotte() {
   });
 }
 
-export const getQuestions = (categories: string[] = []) =>
-  (categories.length > 0 ? roulotte.filter(q => categories.includes(q.category)) : roulotte);
+export const getQuestions = (categories: string[] = []) => {
+  return categories.length > 0
+    ? roulotte.filter(q => categories.includes(q.category))
+    : roulotte;
+};
 
 export const updateControls = (status: Status) => {
   setState({ game: { status } });
