@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import { resolve } from 'path';
-import Timeout = NodeJS.Timeout;
+
 import { loadRoulotteFromFile, loadRoulotteFromGsheet } from './gsheet';
 import { Question } from './types/roulotte';
 import { getState, setState } from './util/state';
@@ -8,8 +8,6 @@ import { emitAdmin, showError, updateMenu } from './windows/admin';
 import { emitPublic } from './windows/public';
 
 let roulotte: Question[];
-let timer = 0;
-let timerInterval: Timeout;
 type Status = 'stopped' | 'started' | 'paused';
 
 // Chargement de la roulotte, d'abord en la récupérant depuis un gsheet puis en la lisant depuis un fichier
@@ -30,34 +28,13 @@ export async function loadRoulotte() {
 }
 
 export const getQuestions = (categories: string[] = []) =>
-  roulotte.filter(q => categories.includes(q.category));
+  (categories.length > 0 ? roulotte.filter(q => categories.includes(q.category)) : roulotte);
 
 export const updateControls = (status: Status) => {
   setState({ game: { status } });
   updateMenu();
   emitAdmin('statusUpdated', status);
   emitPublic('statusUpdated', status);
-};
-
-const timePasses = () => {
-  timer += 1;
-  emitAdmin('time', timer);
-};
-
-export const pauseTimer = () => {
-  clearInterval(timerInterval);
-  timerInterval = null;
-  updateControls('paused');
-};
-
-export const startTimer = () => {
-  timerInterval = setInterval(timePasses, 1000);
-  updateControls('started');
-};
-
-export const resetTimer = () => {
-  pauseTimer();
-  timer = 0;
 };
 
 export const emitQuestion = (question: Question) => {

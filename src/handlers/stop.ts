@@ -1,4 +1,5 @@
-import { emitQuestion, pauseTimer, updateControls } from '../roulotte';
+import { emitQuestion, updateControls } from '../roulotte';
+import { pauseTimer } from '../timer';
 import { setState } from '../util/state';
 
 export const stopGame = () => {

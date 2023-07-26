@@ -1,3 +1,3 @@
-import { pauseTimer } from '../roulotte';
+import { pauseTimer } from '../timer';
 
-export const pauseGame = pauseTimer;
+export { pauseTimer };

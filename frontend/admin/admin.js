@@ -80,48 +80,48 @@ ipcRenderer.on('statusUpdated', (_, data) => {
 const startButton = document.getElementById('start');
 startButton.addEventListener('click', async () => {
   const formData = new FormData(document.getElementById('categories-radios'));
-  await ipcRenderer.invoke('roulotte:start', [...formData.values()]);
+  await ipcRenderer.invoke('start', [...formData.values()]);
 });
 
 const pauseButton = document.getElementById('pause');
 pauseButton.addEventListener('click', async () => {
-  await ipcRenderer.invoke('roulotte:pause');
+  await ipcRenderer.invoke('pause');
 });
 
 const stopButton = document.getElementById('stop');
 stopButton.addEventListener('click', async () => {
-  await ipcRenderer.invoke('roulotte:stop');
+  await ipcRenderer.invoke('stop');
 });
 
 const dlAgainButton = document.getElementById('dl-again');
 dlAgainButton.addEventListener('click', async () => {
-  await ipcRenderer.invoke('roulotte:load');
+  await ipcRenderer.invoke('load');
 });
 
 const gotoLastButton = document.getElementById('goto-last');
 gotoLastButton.addEventListener('click', async () => {
-  await ipcRenderer.invoke('roulotte:gotoLast');
+  await ipcRenderer.invoke('gotoLast');
 });
 
 const previousButton = document.getElementById('previous');
 previousButton.addEventListener('click', async () => {
-  await ipcRenderer.invoke('roulotte:previous');
+  await ipcRenderer.invoke('previous');
 });
 
 const nextButton = document.getElementById('next');
 nextButton.addEventListener('click', async () => {
-  await ipcRenderer.invoke('roulotte:next');
+  await ipcRenderer.invoke('next');
 });
 
 const revealButton = document.getElementById('reveal');
 revealButton.addEventListener('click', async () => {
-  await ipcRenderer.invoke('roulotte:reveal');
+  await ipcRenderer.invoke('reveal');
 });
 
 const textsButton = document.getElementById('texts');
 textsButton.addEventListener('click', async () => {
   await ipcRenderer.invoke(
-    'roulotte:texts',
+    'texts',
     document.getElementById('title').value,
     document.getElementById('waiting').value,
   );
@@ -142,14 +142,14 @@ submitCategories.addEventListener(
 window.addEventListener('keydown', async e => {
   switch (e.key) {
     case 'ArrowLeft':
-      await ipcRenderer.invoke('roulotte:previous');
+      await ipcRenderer.invoke('previous');
       break;
     case 'ArrowRight':
-      await ipcRenderer.invoke('roulotte:next');
+      await ipcRenderer.invoke('next');
       break;
     case 'ArrowUp':
     case 'ArrowDown':
-      await ipcRenderer.invoke('roulotte:reveal');
+      await ipcRenderer.invoke('reveal');
       break;
     default:
       break;

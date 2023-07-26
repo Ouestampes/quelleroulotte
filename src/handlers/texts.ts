@@ -1,6 +1,6 @@
 import { emitPublic } from '../windows/public';
 
-export const publishWaitingMessage = (
+export const publishTexts = (
   _: never,
   title: string,
   waiting: string,

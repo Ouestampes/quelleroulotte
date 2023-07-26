@@ -1,4 +1,4 @@
-import { resetTimer, startTimer } from '../roulotte';
+import { resetTimer, startTimer } from '../timer';
 import { getState, setState } from '../util/state';
 import { createPublicWindow } from '../windows/public';
 import { nextQuestion } from './next';

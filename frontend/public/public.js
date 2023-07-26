@@ -48,17 +48,17 @@ ipcRenderer.on('answerUpdated', (_, data) => {
 window.addEventListener('keydown', async e => {
   switch (e.key) {
     case 'F11':
-      await ipcRenderer.invoke('roulotte:fullscreen');
+      await ipcRenderer.invoke('fullscreen');
       break;
     case 'ArrowLeft':
-      await ipcRenderer.invoke('roulotte:previous');
+      await ipcRenderer.invoke('previous');
       break;
     case 'ArrowRight':
-      await ipcRenderer.invoke('roulotte:next');
+      await ipcRenderer.invoke('next');
       break;
     case 'ArrowUp':
     case 'ArrowDown':
-      await ipcRenderer.invoke('roulotte:reveal');
+      await ipcRenderer.invoke('reveal');
       break;
     default:
       break;
@@ -66,5 +66,5 @@ window.addEventListener('keydown', async e => {
 });
 
 window.addEventListener('dblclick', async () => {
-  await ipcRenderer.invoke('roulotte:fullscreen');
+  await ipcRenderer.invoke('fullscreen');
 });

@@ -1,11 +1,10 @@
 import { lastQuestion } from '../handlers/gotoLast';
 import { nextQuestion } from '../handlers/next';
-import { pauseGame } from '../handlers/pause';
 import { prevQuestion } from '../handlers/previous';
 import { revealCurrentAnswer } from '../handlers/reveal';
 import { startGame } from '../handlers/start';
 import { stopGame } from '../handlers/stop';
-import { startTimer } from '../roulotte';
+import { pauseTimer, startTimer } from '../timer';
 import { MenuItemBuilderFunction } from '../types/electron';
 import { getState } from '../util/state';
 
@@ -28,7 +27,7 @@ const builder: MenuItemBuilderFunction = () => ({
         if (getState().game.status === 'paused') {
           startTimer();
         } else {
-          pauseGame();
+          pauseTimer();
         }
       },
     },
