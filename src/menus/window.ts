@@ -1,5 +1,5 @@
-import { createPublicWindow } from '../electron';
 import { MenuItemBuilderFunction } from '../types/electron';
+import { createPublicWindow } from '../windows/public';
 
 const builder: MenuItemBuilderFunction = () => ({
   label: '&Fenêtre',

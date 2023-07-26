@@ -5,5 +5,5 @@ export interface MenuItemBuilderOptions {
 }
 
 export type MenuItemBuilderFunction = (
-  options?: MenuItemBuilderOptions
+  options?: MenuItemBuilderOptions,
 ) => MenuItemConstructorOptions | MenuItem;

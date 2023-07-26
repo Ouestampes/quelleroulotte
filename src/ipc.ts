@@ -1,24 +1,25 @@
 import { ipcMain } from 'electron';
 
-import { createPublicWindow, emitPublic, togglePublicFullscreen } from './electron';
-import { lastQuestion, nextQuestion, pauseGame, prevQuestion, revealCurrentAnswer, startOrUnpause, stopGame } from './roulotte';
+import { togglePublicFullscreen } from './handlers/fullscreen';
+import { lastQuestion } from './handlers/gotoLast';
+import { loadRoulotte } from './handlers/load';
+import { nextQuestion } from './handlers/next';
+import { pauseTimer } from './handlers/pause';
+import { prevQuestion } from './handlers/previous';
+import { revealCurrentAnswer } from './handlers/reveal';
+import { startGame } from './handlers/start';
+import { stopGame } from './handlers/stop';
+import { publishTexts } from './handlers/texts';
 
 export function loadHandles() {
-  ipcMain.handle('roulotte:load', async () => {
-	  
-  });
-  
-  ipcMain.handle('roulotte:previous', prevQuestion);
-  ipcMain.handle('roulotte:next', nextQuestion);
-  ipcMain.handle('roulotte:reveal', revealCurrentAnswer);
-  ipcMain.handle('roulotte:gotoLast', lastQuestion);
-  ipcMain.handle('roulotte:start', (_, categories: string[]) => {
-	  createPublicWindow();
-	  startOrUnpause(categories);
-  });
-  ipcMain.handle('roulotte:pause', pauseGame);
-  ipcMain.handle('roulotte:stop', stopGame);
-  ipcMain.handle('roulotte:fullscreen', togglePublicFullscreen);
-  ipcMain.handle('roulotte:updatePublicText', (_, title, waiting) =>
-    emitPublic('publicTextUpdated', { title, waiting }));
+  ipcMain.handle('gotoLast', lastQuestion);
+  ipcMain.handle('load', loadRoulotte);
+  ipcMain.handle('next', nextQuestion);
+  ipcMain.handle('pause', pauseTimer);
+  ipcMain.handle('previous', prevQuestion);
+  ipcMain.handle('reveal', revealCurrentAnswer);
+  ipcMain.handle('start', startGame);
+  ipcMain.handle('stop', stopGame);
+  ipcMain.handle('fullscreen', togglePublicFullscreen);
+  ipcMain.handle('texts', publishTexts);
 }

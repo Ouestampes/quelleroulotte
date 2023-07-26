@@ -4,22 +4,14 @@ import { markdown } from 'markdown-pro';
 import { resolve } from 'path';
 
 import { Question } from './types/roulotte';
-import { getState } from './util/state';
+import { getState, setState } from './util/state';
 
-export async function saveRoulotteFromGsheet() {
-  const credsFile = await fs.readFile(
-    resolve(getState().dataPath, 'creds.json'),
-    'utf-8',
-  );
-  return JSON.parse(credsFile);
-}
-
-export async function loadRoulotteFromGsheet() {
+export const loadRoulotteFromGsheet = async () => {
   let creds = null;
   const credsFile = resolve(getState().dataPath, 'creds.json');
   const credsData = await fs.readFile(credsFile, 'utf-8');
   creds = JSON.parse(credsData);
-  
+
   const doc = new GoogleSpreadsheet(creds.sheet);
   await doc.useServiceAccountAuth(creds);
   await doc.loadInfo();
@@ -44,5 +36,21 @@ export async function loadRoulotteFromGsheet() {
     resolve(getState().dataPath, 'roulotte.json'),
     JSON.stringify(roulotte, null, 2),
     'utf-8',
-  );  
-}
+  );
+};
+
+/** Chargement depuis le fichier JSON en cache */
+export const loadRoulotteFromFile = async (): Promise<Question[]> => {
+  const roulotteFile = resolve(getState().dataPath, 'roulotte.json');
+
+  // On teste si le fichier existe et on récupère sa date de MAJ pour l'écrire dans le state
+  try {
+    const { birthtime } = await fs.stat(roulotteFile);
+    setState({ lastUpdate: new Date(birthtime) });
+  } catch (err) {
+    // Le fichier n'existe probablement pas, c'est pas grave pour le moment, la roulotte restera vide.
+  }
+
+  const raw = await fs.readFile(roulotteFile, 'utf-8');
+  return JSON.parse(raw);
+};

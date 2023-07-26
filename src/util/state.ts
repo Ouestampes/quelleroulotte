@@ -1,4 +1,3 @@
-import { emitPublic } from '../electron';
 import { State } from '../types/state';
 
 // Etat initial :
@@ -10,11 +9,9 @@ let state: State = {
 };
 
 /** Get current app state object */
-export function getState() {
-  return { ...state };
-}
+export const getState = () => state;
 
-function merge(target: State, source: Partial<State>) {
+const merge = (target: State, source: Partial<State>) => {
   if (typeof target !== 'object' && typeof source !== 'object') {
     return source;
   }
@@ -36,11 +33,10 @@ function merge(target: State, source: Partial<State>) {
   }
 
   return target;
-}
+};
 
 /** Set one or more settings in app state */
-export function setState(part: Partial<State>) {
+export const setState = (part: Partial<State>) => {
   state = merge(state, part);
-  emitPublic('questionsAsked', state.game?.questionsAsked);
   return getState();
-}
+};
