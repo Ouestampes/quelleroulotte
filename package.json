@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/AxelTerizaki/quelleroulotte#readme",
   "dependencies": {
-    "google-spreadsheet": "^3",
+    "google-spreadsheet": "^4",
     "markdown-pro": "^1.1.6",
     "source-map-support": "^0.5.21"
   },
