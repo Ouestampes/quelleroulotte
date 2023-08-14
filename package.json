@@ -36,7 +36,7 @@
     "electron": "^25.3.1",
     "electron-builder": "^24.6.3",
     "esbuild": "^0.18.17",
-    "eslint": "^8.45.0",
+    "eslint": "^8.47.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-plugin-import": "^2.27.5",
