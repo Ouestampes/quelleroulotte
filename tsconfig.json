@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		// Target latest version of ECMAScript.
-		"target": "es2021",
+		"target": "ES2021",
 		"module": "ES6",
 		// Search under node_modules for non-relative imports.
 		"moduleResolution": "node",
@@ -11,7 +11,8 @@
 		"noEmit": true,
 		// Enable strictest settings like strictNullChecks & noImplicitAny.
 		// true is better but requires a global refactoring.
-		"strict": false,
+		"strict": true,
+		"strictNullChecks": false,
 		"isolatedModules": true,
 		// Import non-ES modules as default imports.
 		"esModuleInterop": true,

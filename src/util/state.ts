@@ -1,42 +1,27 @@
+import deepmerge from 'deepmerge';
+
 import { State } from '../types/state';
 
 // Etat initial :
 let state: State = {
+  appPath: '',
+  dataPath: '',
+  resourcePath: '',
+  publicFullscreen: false,
   game: {
     status: 'stopped',
     questions: [],
+    questionsAsked: 0,
+    categories: [],
+    pos: -1,
   },
 };
 
 /** Get current app state object */
 export const getState = () => state;
 
-const merge = (target: State, source: Partial<State>) => {
-  if (typeof target !== 'object' && typeof source !== 'object') {
-    return source;
-  }
-
-  for (const key of Object.keys(source)) {
-    const targetValue = target[key];
-    const sourceValue = source[key];
-
-    if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
-      target[key] = sourceValue;
-    } else if (
-      typeof targetValue === 'object' &&
-      typeof sourceValue === 'object'
-    ) {
-      target[key] = merge({ ...targetValue }, sourceValue);
-    } else {
-      target[key] = sourceValue;
-    }
-  }
-
-  return target;
-};
-
 /** Set one or more settings in app state */
 export const setState = (part: Partial<State>) => {
-  state = merge(state, part);
+  state = deepmerge(state, part);
   return getState();
 };

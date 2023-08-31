@@ -7,9 +7,9 @@ export interface Question {
 }
 
 export interface Game {
-  status?: 'stopped' | 'started' | 'paused';
-  questions?: Question[];
-  pos?: number;
-  categories?: string[];
-  questionsAsked?: number;
+  status: 'stopped' | 'started' | 'paused';
+  questions: Question[];
+  pos: number;
+  categories: string[];
+  questionsAsked: number;
 }

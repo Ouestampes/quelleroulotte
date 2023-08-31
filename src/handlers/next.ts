@@ -1,9 +1,9 @@
 import { emitQuestion, getQuestions } from '../roulotte';
 import { getState, setState } from '../util/state';
 
-export const nextQuestion = () => {
+export const nextQuestion = (): void => {
   const game = getState().game;
-  let id = null;
+  let id: number | null = null;
 
   // Si on est pas à la toute dernière position on repioche une question
   // Sinon on augmente notre position et on reprend la question.

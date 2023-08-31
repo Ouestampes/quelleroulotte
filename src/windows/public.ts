@@ -44,5 +44,7 @@ export const createPublicWindow = () => {
     });
   });
 
-  publicWindow.on('closed', () => (publicWindow = null));
+  publicWindow.on('closed', () => {
+    publicWindow = null;
+  });
 };

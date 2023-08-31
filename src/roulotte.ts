@@ -49,14 +49,14 @@ export const reportQuestion = async () => {
   const game = getState().game;
   const id = game.questions[game.pos].id;
   const badFile = resolve(getState().dataPath, 'badIDs.txt');
-  let badQuestions = [];
+  let badQuestions: string[] = [];
   try {
     const raw = await fs.readFile(badFile, 'utf-8');
     badQuestions = raw.split('\n');
   } catch (err) {
     // Pas de problème si el fichier n'existe pas
   }
-  badQuestions.push(id);
+  badQuestions.push(id.toString());
   await fs.writeFile(badFile, badQuestions.join('\n'), 'utf-8');
 };
 
