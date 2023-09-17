@@ -9,9 +9,9 @@ import { prevQuestion } from './handlers/previous';
 import { revealCurrentAnswer } from './handlers/reveal';
 import { startGame } from './handlers/start';
 import { stopGame } from './handlers/stop';
-import { publishTexts } from './handlers/texts';
+import { publishText } from './handlers/text';
 
-export function loadHandles() {
+export function loadHandles(): void {
   ipcMain.handle('gotoLast', lastQuestion);
   ipcMain.handle('load', loadRoulotte);
   ipcMain.handle('next', nextQuestion);
@@ -21,5 +21,5 @@ export function loadHandles() {
   ipcMain.handle('start', startGame);
   ipcMain.handle('stop', stopGame);
   ipcMain.handle('fullscreen', togglePublicFullscreen);
-  ipcMain.handle('texts', publishTexts);
+  ipcMain.handle('text', publishText);
 }

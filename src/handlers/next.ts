@@ -1,8 +1,8 @@
 import { emitQuestion, getQuestions } from '../roulotte';
-import { getState, setState } from '../util/state';
+import { getGame, setGame } from '../util/state';
 
 export const nextQuestion = (): void => {
-  const game = getState().game;
+  const game = getGame();
   let id: number | null = null;
 
   // Si on est pas à la toute dernière position on repioche une question
@@ -22,14 +22,18 @@ export const nextQuestion = (): void => {
 
       // Si c'est le cas on a plus de questions possibles
       counter += 1;
-      if (counter >= questions.length) return null;
+      if (counter >= questions.length) return;
     }
 
-    game.questions.push(questions.find(q => q.id === id));
-    game.questionsAsked += 1;
+    const question = questions.find(q => q.id === id);
+
+    if (question) {
+      game.questions.push(question);
+      game.questionsAsked += 1;
+    }
   }
 
   game.pos += 1;
-  setState({ game });
+  setGame(game);
   emitQuestion(game.questions[game.pos]);
 };

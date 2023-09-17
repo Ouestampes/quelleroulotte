@@ -1,7 +1,7 @@
-import { getState } from '../util/state';
+import { getGame } from '../util/state';
 import { emitPublic } from '../windows/public';
 
-export const revealCurrentAnswer = () => {
-  const game = getState().game;
+export const revealCurrentAnswer = (): void => {
+  const game = getGame();
   emitPublic('answerUpdated', game.questions[game.pos].answer);
 };

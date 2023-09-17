@@ -1,6 +1,4 @@
-import deepmerge from 'deepmerge';
-
-import { State } from '../types/state';
+import { Game, State } from '../types/state';
 
 // Etat initial :
 let state: State = {
@@ -8,20 +6,28 @@ let state: State = {
   dataPath: '',
   resourcePath: '',
   publicFullscreen: false,
-  game: {
-    status: 'stopped',
-    questions: [],
-    questionsAsked: 0,
-    categories: [],
-    pos: -1,
-  },
+};
+
+let game: Game = {
+  status: 'stopped',
+  questions: [],
+  questionsAsked: 0,
+  categories: [],
+  pos: -1,
 };
 
 /** Get current app state object */
-export const getState = () => state;
+export const getState = (): State => state;
 
 /** Set one or more settings in app state */
-export const setState = (part: Partial<State>) => {
-  state = deepmerge(state, part);
-  return getState();
+export const setState = (part: Partial<State>): void => {
+  state = { ...state, ...part };
+};
+
+/** Get current game state object */
+export const getGame = (): Game => game;
+
+/** Set one or more settings in game state */
+export const setGame = (part: Partial<Game>): void => {
+  game = { ...game, ...part };
 };

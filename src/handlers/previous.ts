@@ -1,10 +1,10 @@
 import { emitQuestion } from '../roulotte';
-import { getState, setState } from '../util/state';
+import { getGame, setGame } from '../util/state';
 
 export const prevQuestion = (): void => {
-  const game = getState().game;
-  if (game.pos <= 0) return null;
+  const game = getGame();
+  if (game.pos <= 0) return;
   game.pos -= 1;
-  setState({ game });
+  setGame(game);
   emitQuestion(game.questions[game.pos]);
 };

@@ -3,9 +3,9 @@ import fileMenu from './menus/file';
 import gameMenu from './menus/game';
 import viewMenu from './menus/view';
 import windowMenu from './menus/window';
-import { MenuItemBuilderOptions } from './types/electron';
+import { MenuItemBuilderItem, MenuItemBuilderOptions } from './types/electron';
 
-export const initMenu = () => {
+export const initMenu = (): MenuItemBuilderItem[] => {
   const options: MenuItemBuilderOptions = {
     isMac: process.platform === 'darwin',
   };

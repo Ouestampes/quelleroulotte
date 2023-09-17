@@ -1,22 +1,23 @@
 import { IpcMainInvokeEvent } from 'electron';
 
 import { resetTimer, startTimer } from '../timer';
-import { getState, setState } from '../util/state';
+import { getGame, setGame } from '../util/state';
 import { createPublicWindow } from '../windows/public';
 import { nextQuestion } from './next';
 
-export const startGame = (_: IpcMainInvokeEvent, categories: string[]) => {
+export const startGame = (
+  _: IpcMainInvokeEvent | null,
+  categories: string[],
+): void => {
   createPublicWindow();
-  const game = getState().game;
+  const game = getGame();
 
   if (game.status === 'stopped') {
-    setState({
-      game: {
-        questions: [],
-        pos: -1,
-        categories,
-        questionsAsked: 0,
-      },
+    setGame({
+      questions: [],
+      pos: -1,
+      categories,
+      questionsAsked: 0,
     });
 
     // On tire la première question

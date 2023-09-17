@@ -6,29 +6,21 @@ import { startGame } from '../handlers/start';
 import { stopGame } from '../handlers/stop';
 import { pauseTimer, startTimer } from '../timer';
 import { MenuItemBuilderFunction } from '../types/electron';
-import { getState } from '../util/state';
+import { getGame } from '../util/state';
 
 const builder: MenuItemBuilderFunction = () => ({
   label: '&Partie',
   submenu: [
     {
-      label: getState().game.status === 'stopped' ? '&Démarrer' : '&Arrêter',
-      click: () => {
-        if (getState().game.status === 'stopped') {
-          startGame(null, []);
-        } else {
-          stopGame();
-        }
+      label: getGame().status === 'stopped' ? '&Démarrer' : '&Arrêter',
+      click: (): void => {
+        getGame().status === 'stopped' ? startGame(null, []) : stopGame();
       },
     },
     {
-      label: getState().game.status === 'paused' ? '&Reprendre' : '&Pause',
-      click: () => {
-        if (getState().game.status === 'paused') {
-          startTimer();
-        } else {
-          pauseTimer();
-        }
+      label: getGame().status === 'paused' ? '&Reprendre' : '&Pause',
+      click: (): void => {
+        getGame().status === 'paused' ? startTimer() : pauseTimer();
       },
     },
     { type: 'separator' },

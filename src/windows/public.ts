@@ -4,17 +4,17 @@ import { resolve } from 'path';
 import { GAME_TITLE_MESSAGE, WAITING_MESSAGE } from '../util/constants';
 import { getState } from '../util/state';
 
-let publicWindow: BrowserWindow;
+let publicWindow: BrowserWindow | null;
 
 // Envoyer un message à la fenêtre publique
-export const emitPublic = (type: string, data: unknown) => {
+export const emitPublic = (type: string, data: unknown): void => {
   if (publicWindow) publicWindow.webContents.send(type, data);
 };
 
-export const togglePublicFullscreen = () =>
+export const togglePublicFullscreen = (): void =>
   publicWindow?.setFullScreen(!publicWindow.isFullScreen());
 
-export const createPublicWindow = () => {
+export const createPublicWindow = (): void => {
   if (publicWindow) return;
 
   publicWindow = new BrowserWindow({
@@ -36,7 +36,7 @@ export const createPublicWindow = () => {
   );
 
   publicWindow.once('ready-to-show', () => {
-    publicWindow.show();
+    publicWindow?.show();
 
     emitPublic('publicTextUpdated', {
       title: GAME_TITLE_MESSAGE,

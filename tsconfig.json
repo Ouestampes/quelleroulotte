@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		// Target latest version of ECMAScript.
-		"target": "ES2021",
-		"module": "ES6",
+		"target": "ES2022",
+		"module": "ES2022",
 		// Search under node_modules for non-relative imports.
 		"moduleResolution": "node",
 		// Process & infer types from .js files.
@@ -12,7 +12,6 @@
 		// Enable strictest settings like strictNullChecks & noImplicitAny.
 		// true is better but requires a global refactoring.
 		"strict": true,
-		"strictNullChecks": false,
 		"isolatedModules": true,
 		// Import non-ES modules as default imports.
 		"esModuleInterop": true,
@@ -29,7 +28,9 @@
 		"listEmittedFiles": false,
 		"noUnusedParameters": true,
 		"noUnusedLocals": true,
-		"experimentalDecorators": true
+		"experimentalDecorators": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
 	},
 	"include": ["src", "test", "util"]
 }

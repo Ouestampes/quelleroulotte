@@ -12,7 +12,7 @@ const builder: MenuItemBuilderFunction = () => ({
     { label: '&Dézoomer', role: 'zoomOut' },
     { type: 'separator' },
     { label: '&Plein écran (contrôleur)', role: 'togglefullscreen' },
-    { label: 'P&lein écran (public)', click: () => {} },
+    { label: 'P&lein écran (public)', click: (): void => {} },
   ],
 });
 

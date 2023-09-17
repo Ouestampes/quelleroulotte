@@ -118,10 +118,10 @@ revealButton.addEventListener('click', async () => {
   await ipcRenderer.invoke('reveal');
 });
 
-const textsButton = document.getElementById('texts');
-textsButton.addEventListener('click', async () => {
+const textButton = document.getElementById('text');
+textButton.addEventListener('click', async () => {
   await ipcRenderer.invoke(
-    'texts',
+    'text',
     document.getElementById('title').value,
     document.getElementById('waiting').value,
   );

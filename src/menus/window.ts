@@ -7,9 +7,7 @@ const builder: MenuItemBuilderFunction = () => ({
     { label: '&Minimiser', role: 'minimize' },
     {
       label: '&Afficher la fenêtre publique',
-      click: () => {
-        createPublicWindow();
-      },
+      click: () => createPublicWindow(),
     },
   ],
 });

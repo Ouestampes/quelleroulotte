@@ -2,11 +2,11 @@
 
 const { ipcRenderer } = require('electron');
 
-ipcRenderer.on('publicTextUpdated', (_, texts) => {
+ipcRenderer.on('publicTextUpdated', (_, text) => {
   const ipTitle = document.querySelector('.ip--title');
-  ipTitle.innerHTML = texts.title;
+  ipTitle.innerHTML = text.title;
   const ipWaiting = document.querySelector('.ip--waiting');
-  ipWaiting.innerHTML = texts.waiting;
+  ipWaiting.innerHTML = text.waiting;
 });
 
 ipcRenderer.on('statusUpdated', (_, data) => {

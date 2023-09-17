@@ -1,17 +1,15 @@
 import { emitQuestion, updateControls } from '../roulotte';
 import { pauseTimer } from '../timer';
-import { setState } from '../util/state';
+import { setGame } from '../util/state';
 
-export const stopGame = () => {
+export const stopGame = (): void => {
   // Le timer ne sera renvoyé qu'après un redémarrage du jeu
   pauseTimer();
 
-  setState({
-    game: {
-      questions: [],
-      pos: -1,
-      categories: [],
-    },
+  setGame({
+    questions: [],
+    pos: -1,
+    categories: [],
   });
 
   updateControls('stopped');

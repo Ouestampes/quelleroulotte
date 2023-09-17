@@ -2,8 +2,8 @@ import { IpcMainInvokeEvent } from 'electron';
 
 import { emitPublic } from '../windows/public';
 
-export const publishTexts = (
+export const publishText = (
   _: IpcMainInvokeEvent,
   title: string,
   waiting: string,
-) => emitPublic('publicTextUpdated', { title, waiting });
+): void => emitPublic('publicTextUpdated', { title, waiting });

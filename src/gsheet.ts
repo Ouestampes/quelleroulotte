@@ -3,10 +3,10 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { markdown } from 'markdown-pro';
 import { resolve } from 'path';
 
-import { Question } from './types/roulotte';
+import { Question } from './types/state';
 import { getState, setState } from './util/state';
 
-export const loadRoulotteFromGsheet = async () => {
+export const loadRoulotteFromGsheet = async (): Promise<void> => {
   let creds = null;
   const credsFile = resolve(getState().dataPath, 'creds.json');
   const credsData = await fs.readFile(credsFile, 'utf-8');

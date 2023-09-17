@@ -1,4 +1,10 @@
-import { app, BrowserWindow, dialog, Menu } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  dialog,
+  Menu,
+  MessageBoxReturnValue,
+} from 'electron';
 import { resolve } from 'path';
 
 import { initMenu } from '../menu';
@@ -8,17 +14,17 @@ import { getState } from '../util/state';
 let adminWindow: BrowserWindow;
 
 // Envoyer un message à la fenêtre admin
-export const emitAdmin = (type: string, data: unknown) => {
+export const emitAdmin = (type: string, data: unknown): void => {
   if (adminWindow) adminWindow.webContents.send(type, data);
 };
 
-export const showError = (message: string) =>
+export const showError = (message: string): Promise<MessageBoxReturnValue> =>
   dialog.showMessageBox(adminWindow, {
     message,
     type: 'error',
   });
 
-export const updateMenu = () => {
+export const updateMenu = (): void => {
   const menu = Menu.buildFromTemplate(initMenu());
 
   // Setup de l'application sur la fenêtre admin sous Windows, sinon sur le bureau sous macOS
@@ -33,7 +39,7 @@ export const updateMenu = () => {
   // publicWindow.setMenu(menu);
 };
 
-export const createAdminWindow = () => {
+export const createAdminWindow = (): void => {
   // Create the browser window
   adminWindow = new BrowserWindow({
     width: 700,

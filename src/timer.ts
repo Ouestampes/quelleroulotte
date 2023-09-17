@@ -5,23 +5,22 @@ import { emitAdmin } from './windows/admin';
 let timer = 0;
 let timerInterval: Timeout;
 
-const timePasses = () => {
+const timePasses = (): void => {
   timer += 1;
   emitAdmin('time', timer);
 };
 
-export const pauseTimer = () => {
+export const pauseTimer = (): void => {
   clearInterval(timerInterval);
-  timerInterval = null;
   updateControls('paused');
 };
 
-export const startTimer = () => {
+export const startTimer = (): void => {
   timerInterval = setInterval(timePasses, 1000);
   updateControls('started');
 };
 
-export const resetTimer = () => {
+export const resetTimer = (): void => {
   pauseTimer();
   timer = 0;
 };
