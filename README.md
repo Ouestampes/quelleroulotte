@@ -1,16 +1,12 @@
-# Quelle roulotte ?
+# Sapporoulette
 
 Un jeu Ouestampes(tm)
-
-(le Comité de Libération de la Roulotte s'insurge contre tout renommage du jeu en autre chose que "Quelle Roulotte ?" :) )
 
 ## Installation
 
 ```
 yarn install
 ```
-
-(oui il faut yarn d'installé)
 
 ## Lancement
 
