@@ -1,39 +1,25 @@
 <template>
     <div>
-        <div>N° : {{ }}</div>
-        <div>Catégorie : <span class="ip--category"></span></div>
-        <div>Thème : <span class="ip--theme"></span></div>
+        <div>N° : {{ id }}</div>
+        <div>Catégorie : {{ category }}</div>
+        <div>Thème : {{ theme }}</div>
         <br />
+        <div>Question : {{ question }}</div>
+        <div>Réponse : {{ answer }}</div>
         <div>
-            Question :
-            <div class="ip--question"></div>
-        </div>
-        <div>
-            Réponse :
-            <div class="ip--answer"></div>
-        </div>
-        <div>
-            <p>Temps écoulé : <span class="ip--timer"></span></p>
+            <p>Temps écoulé : {{ timer }}</p>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { mapState } from 'pinia';
+import { useStore } from '../stores/ipc';
 
 export default defineComponent({
-    data = (): {
-        question: String!,
-        id: Number!,
-        answer: String!,
-        category: String[],
-        theme: String!
-    } => ({
-        question: null,
-        id: null,
-        answer: null,
-        category: null,
-        theme: null
-    })
+    computed: {
+        ...mapState(useStore, ['id', 'category', 'theme', 'question', 'answer', 'timer'])
+    }
 })
 </script>
