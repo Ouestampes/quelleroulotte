@@ -1320,10 +1320,10 @@ electron-publish@24.5.0:
     lazy-val "^1.0.5"
     mime "^2.5.2"
 
-electron@^24:
-  version "24.8.6"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-24.8.6.tgz#cfc609bc01a6104920c33421ec7d83e351a7142c"
-  integrity sha512-OIwFfQI6srMwwH3K1nKO8ix6HaK7liB5QJYSaW8bMnhJcqwbHKk097jZmp355FaT3+zRYpHr+SnIUFINCpy7JQ==
+electron@^26:
+  version "26.3.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-26.3.0.tgz#3267773d170310384db76819cf6375bd98b3cc76"
+  integrity sha512-7ZpvSHu+jmqialSvywTZnOQZZGLqlyj+yV5HGDrEzFnMiFaXBRpbByHgoUhaExJ/8t/0xKQjKlMRAY65w+zNZQ==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^18.11.18"
