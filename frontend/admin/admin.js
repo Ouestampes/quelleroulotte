@@ -40,11 +40,11 @@ ipcRenderer.on('questionUpdated', (_, data) => {
   const answer = document.querySelector('.ip--answer');
   const category = document.querySelector('.ip--category');
   const theme = document.querySelector('.ip--theme');
-  question.innerHTML = data.question;
-  id.innerHTML = data.id;
-  answer.innerHTML = data.answer;
-  category.innerHTML = data.category;
-  theme.innerHTML = data.theme;
+  question.innerHTML = data.question.question;
+  id.innerHTML = data.question.id;
+  answer.innerHTML = data.question.answer;
+  category.innerHTML = data.question.category;
+  theme.innerHTML = data.question.theme;
 });
 
 ipcRenderer.on('time', (_, data) => {

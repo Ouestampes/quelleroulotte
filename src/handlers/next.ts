@@ -35,5 +35,5 @@ export const nextQuestion = (): void => {
 
   game.pos += 1;
   setGame(game);
-  emitQuestion(game.questions[game.pos]);
+  emitQuestion(game.questions[game.pos], game.questionsAsked);
 };

@@ -39,9 +39,12 @@ export const updateControls = (status: Game['status']): void => {
   emitPublic('statusUpdated', status);
 };
 
-export const emitQuestion = (question: Question): void => {
-  emitAdmin('questionUpdated', question);
-  emitPublic('questionUpdated', question);
+export const emitQuestion = (
+  question: Question,
+  questionsAsked: number,
+): void => {
+  emitAdmin('questionUpdated', { question, questionsAsked });
+  emitPublic('questionUpdated', { question, questionsAsked });
 };
 
 export const reportQuestion = async (): Promise<void> => {
@@ -72,5 +75,5 @@ export const goToQuestion = async (id: number): Promise<void> => {
   game.questions.push(question);
   game.pos += 1;
   setGame(game);
-  emitQuestion(game.questions[game.pos]);
+  emitQuestion(game.questions[game.pos], game.questionsAsked - 1);
 };

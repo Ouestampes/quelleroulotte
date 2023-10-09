@@ -19,25 +19,23 @@ ipcRenderer.on('statusUpdated', (_, data) => {
 
 ipcRenderer.on('questionUpdated', (_, data) => {
   const question = document.querySelector('.ip--question');
-  question.innerHTML = data.question;
+  question.innerHTML = data.question.question;
 
   const id = document.querySelector('.ip--id');
-  id.innerHTML = data.id;
+  id.innerHTML = data.question.id;
 
   const category = document.querySelector('.ip--category');
-  category.innerHTML = data.category;
+  category.innerHTML = data.question.category;
 
   const theme = document.querySelector('.ip--theme');
-  theme.innerHTML = data.theme;
+  theme.innerHTML = data.question.theme;
 
   // Réinitialiser l'affichage de la réponse
   const answer = document.querySelector('.ip--answer');
   answer.innerHTML = '';
-});
 
-ipcRenderer.on('questionsAsked', (_, data) => {
   const questionsAsked = document.querySelector('.ip--questionsAsked');
-  questionsAsked.innerHTML = data;
+  questionsAsked.innerHTML = data.questionsAsked;
 });
 
 ipcRenderer.on('answerUpdated', (_, data) => {

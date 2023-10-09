@@ -14,11 +14,14 @@ export const stopGame = (): void => {
 
   updateControls('stopped');
 
-  emitQuestion({
-    question: '',
-    category: '',
-    theme: '',
-    id: 0,
-    answer: '',
-  });
+  emitQuestion(
+    {
+      question: '',
+      category: '',
+      theme: '',
+      id: 0,
+      answer: '',
+    },
+    0,
+  );
 };

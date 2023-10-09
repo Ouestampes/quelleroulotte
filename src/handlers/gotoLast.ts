@@ -8,5 +8,5 @@ export const lastQuestion = (): void => {
   game.pos = game.questions.length - 1;
   setGame(game);
 
-  emitQuestion(game.questions[game.pos]);
+  emitQuestion(game.questions[game.pos], game.questionsAsked);
 };

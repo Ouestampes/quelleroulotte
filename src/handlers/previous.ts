@@ -6,5 +6,5 @@ export const prevQuestion = (): void => {
   if (game.pos <= 0) return;
   game.pos -= 1;
   setGame(game);
-  emitQuestion(game.questions[game.pos]);
+  emitQuestion(game.questions[game.pos], game.questionsAsked);
 };
