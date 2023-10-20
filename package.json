@@ -24,12 +24,12 @@
   },
   "homepage": "https://github.com/AxelTerizaki/quelleroulotte#readme",
   "dependencies": {
-    "google-spreadsheet": "^3",
+    "google-spreadsheet": "^4",
     "markdown-pro": "^1.1.7",
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
-    "@types/google-spreadsheet": "^3",
+    "@types/google-spreadsheet": "^4",
     "@types/node": "^20.8.3",
     "@types/source-map-support": "^0.5.8",
     "@typescript-eslint/eslint-plugin": "^6.7.5",
