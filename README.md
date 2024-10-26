@@ -5,7 +5,7 @@ Un jeu Ouestampes(tm)
 ## Installation
 
 ```
-yarn install
+npm install
 ```
 
 ## Lancement
@@ -17,13 +17,13 @@ Demander sur le Discord asso pour le fichier par exemple.
 Puis :
 
 ```
-yarn start
+npm run start
 ```
 
 ## Construire un binaire Windows
 
 ```
-yarn dist
+npm run dist
 ```
 
 Les binaires sont dans le dossier `packages`.
