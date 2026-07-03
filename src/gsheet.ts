@@ -1,4 +1,5 @@
 import fs from 'fs/promises';
+import {JWT} from 'google-auth-library';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { markdown } from 'markdown-pro';
 import { resolve } from 'path';
@@ -6,29 +7,40 @@ import { resolve } from 'path';
 import { Question } from './types/state';
 import { getState, setState } from './util/state';
 
+const SCOPES = [
+  'https://www.googleapis.com/auth/spreadsheets',
+  'https://www.googleapis.com/auth/drive.file',
+];
+
 export const loadRoulotteFromGsheet = async (): Promise<void> => {
   let creds = null;
   const credsFile = resolve(getState().dataPath, 'creds.json');
   const credsData = await fs.readFile(credsFile, 'utf-8');
   creds = JSON.parse(credsData);
 
-  const doc = new GoogleSpreadsheet(creds.sheet);
-  await doc.useServiceAccountAuth(creds);
+  const jwt = new JWT({
+    email: creds.client_email,
+    key: creds.private_key,
+    scopes: SCOPES,
+  });
+
+  const doc = new GoogleSpreadsheet(creds.sheet, jwt);
   await doc.loadInfo();
   const sheet = doc.sheetsByIndex[0];
   const rows = await sheet.getRows();
   const roulotte: Question[] = [];
   for (const row of rows) {
-    if (row._rawData.length === 5) {
+    const rowObj = Object.values(row.toObject());
+    if (rowObj.length === 5) {
       roulotte.push({
-        id: +row._rawData[0],
-        category: row._rawData[1],
-        theme: row._rawData[2],
-        question: markdown(row._rawData[3], { useWrapper: false }).replace(
+        id: +rowObj[0],
+        category: rowObj[1],
+        theme: rowObj[2],
+        question: markdown(rowObj[3], { useWrapper: false }).replace(
           / (\?|!|:)/,
           '&nbsp;$1',
         ),
-        answer: markdown(row._rawData[4], { useWrapper: false }),
+        answer: markdown(rowObj[4], { useWrapper: false }),
       });
     }
   }

@@ -14,6 +14,7 @@ export async function loadRoulotte(): Promise<void> {
   try {
     await loadRoulotteFromGsheet();
   } catch (err) {
+    console.error(err);
     // Non-fatal, on va charger le fichier depuis le fichier
     showError(
       "Impossible de lire le Gsheet. On va charger un roulotte.json local s'il existe.\nPour lire depuis le Gsheet, assurez-vous d'avoir le fichier \"creds.json\" et/ou d'être connecté à Internet.",
