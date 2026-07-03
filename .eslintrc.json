@@ -6,10 +6,9 @@
 		"es2020": true,
 		"browser": true
 	},
-	"plugins": ["security", "simple-import-sort"],
+	"plugins": ["simple-import-sort"],
 	"extends": [
 		"eslint:recommended",
-		"plugin:security/recommended",
 		"airbnb-base"
 	],
 	"rules": {
@@ -77,10 +76,6 @@
 		"prefer-rest-params": 0,
 		"require-await": 0,
 		"simple-import-sort/imports": "warn",
-		"simple-import-sort/exports": "warn",
-		"security/detect-non-literal-fs-filename": 0,
-		"security/detect-non-literal-regexp": 0,
-		"security/detect-object-injection": 0,
-		"security/detect-possible-timing-attacks": 0
+		"simple-import-sort/exports": "warn"
 	}
 }

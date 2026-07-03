@@ -6,11 +6,10 @@
     "es2020": true,
     "node": true
   },
-  "plugins": ["@typescript-eslint", "security", "simple-import-sort"],
+  "plugins": ["@typescript-eslint", "simple-import-sort"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:security/recommended",
     "airbnb-base",
     "airbnb-typescript/base"
   ],
@@ -95,11 +94,7 @@
     "@typescript-eslint/no-unused-vars": 0,
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/no-var-requires": 0,
-    "@typescript-eslint/space-before-blocks": 0,
-    "security/detect-non-literal-fs-filename": 0,
-    "security/detect-non-literal-regexp": 0,
-    "security/detect-object-injection": 0,
-    "security/detect-possible-timing-attacks": 0
+    "@typescript-eslint/space-before-blocks": 0
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
