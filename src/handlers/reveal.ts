@@ -3,5 +3,7 @@ import { emitPublic } from '../windows/public';
 
 export const revealCurrentAnswer = (): void => {
   const game = getGame();
-  emitPublic('answerUpdated', game.questions[game.pos].answer);
+  if (game.questions[game.pos]) {
+    emitPublic('answerUpdated', game.questions[game.pos].answer);
+  }
 };

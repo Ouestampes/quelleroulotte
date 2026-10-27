@@ -38,9 +38,13 @@ ipcRenderer.on('questionUpdated', (_, data) => {
   questionsAsked.innerHTML = data.questionsAsked;
 });
 
-ipcRenderer.on('answerUpdated', (_, data) => {
+ipcRenderer.on('answerUpdated', async (_, data) => {
   const answer = document.querySelector('.ip--answer');
-  answer.innerHTML = data;
+  if (!answer.innerHTML) {
+    answer.innerHTML = data;
+  } else {
+    await ipcRenderer.invoke('next');
+  }
 });
 
 window.addEventListener('keydown', async e => {
