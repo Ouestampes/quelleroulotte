@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import {JWT} from 'google-auth-library';
+import { JWT } from 'google-auth-library';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { markdown } from 'markdown-pro';
 import { resolve } from 'path';
