@@ -53,13 +53,16 @@ window.addEventListener('keydown', async e => {
       await ipcRenderer.invoke('fullscreen');
       break;
     case 'ArrowLeft':
+    case 'PageUp':
       await ipcRenderer.invoke('previous');
       break;
     case 'ArrowRight':
+    case 'PageDown':
       await ipcRenderer.invoke('next');
       break;
     case 'ArrowUp':
     case 'ArrowDown':
+    case 'b':
       await ipcRenderer.invoke('reveal');
       break;
     default:
